@@ -1,0 +1,22 @@
+
+.red{
+    color: red;
+}
+
+.app-container{
+    /* padding-top: 8vh; */
+}
+
+
+.sidebar-container{
+    /* min-height: 95vh; */
+    position: sticky;
+    top: 0;
+    padding-top: 1rem;
+}
+
+
+.sidebar-feed{
+    padding: 1rem;
+    padding-top: 10vh;
+}

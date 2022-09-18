@@ -1,0 +1,32 @@
+@media only screen and (max-width: 800px) {
+  .sidebar-text {
+    display: none;
+  }
+}
+
+.sidebar {
+  min-height: 95vh;
+  padding-top: 10vh;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  color: gray;
+}
+.sidebar-text {
+  padding-left: 1rem;
+  font-weight: 500;
+}
+
+.sidebar-item {
+  color: gray;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2.4rem;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+}
+
+.icon {
+  font-size: 1.2rem;
+}
