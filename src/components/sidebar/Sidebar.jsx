@@ -34,7 +34,7 @@ function Sidebar() {
         {/* </Link> */}
       </Link>
 
-      <Link to="#" className="sidebar-item">
+      <div className="sidebar-item">
       <Accordion  
       disableGutters
         elevation={0}
@@ -65,7 +65,7 @@ function Sidebar() {
           
 
       </Accordion>
-      </Link>
+      </div>
 
       <Link to="/admin/users" className="sidebar-item">
         <People className="icon" />

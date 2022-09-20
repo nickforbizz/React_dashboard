@@ -1,29 +1,29 @@
-import { TextField } from "@mui/material";
-import React from "react";
+import React from 'react'
 import { Controller } from "react-hook-form";
+import { TextField } from '@mui/material';
 
-export const FormInputText = ({ name, control, label }) => {
-    return (
+function FormInputDate({ name, control, label }) {
+  return (
         <Controller
           name={name}
           control={control}
-          render={({
-            field: { onChange, value },
-            fieldState: { error },
-            formState,
-          }) => (
+          render={({ field : {onChange , value }, fieldState: { error }, }) => (
             <TextField
               helperText={error ? error.message : null}
               size="small"
+              type="date"
               error={!!error}
               onChange={onChange}
-              value={value}
+              value={value || ''}
               fullWidth
               label={label}
               variant="outlined"
-              sx={{ mb: 1 }}
+              sx={{ mb: 2 }}
             />
           )}
         />
-      );
-};
+
+  )
+}
+
+export default FormInputDate
