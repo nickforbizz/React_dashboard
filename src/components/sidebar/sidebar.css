@@ -5,7 +5,7 @@
 }
 
 .sidebar {
-  min-height: 95vh;
+  min-height: 98vh;
   padding-top: 10vh;
   position: -webkit-sticky;
   position: sticky;
@@ -25,6 +25,15 @@
   cursor: pointer;
   text-decoration: none;
   outline: none;
+}
+.sidebar_item_dropdown{
+  color: gray;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+
 }
 
 .icon {
