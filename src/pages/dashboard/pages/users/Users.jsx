@@ -42,7 +42,7 @@ function Users() {
 
   let form_template = {
     title: 'My Form Title',
-    watchFields: ['fname'],
+    watchFields: ['fname', 'has_portifolio'],
     fields: [
       {
         title: 'First Name',
@@ -65,6 +65,23 @@ function Users() {
         name: 'email',
         field_id: 'email',
       },
+      {
+        input_type: 'checkbox',
+        title: 'Include Portifolio',
+        type: 'text',
+        name: 'has_portifolio',
+        field_id: 'has_portifolio',
+      },
+      {
+        title: 'Portfolio URL',
+        type: 'url',
+        name: 'portfolio',
+        field_id: 'portfolio_url',
+        dynamic: {
+          field: 'has_portifolio',
+          value: true,
+        },
+      },
     ],
   };
 
@@ -73,7 +90,6 @@ function Users() {
     let { errors, setError, clearErrors } = errorMethods;
     let [fname] = watchValues;
 
-    // custorm errors
     if (fname !== undefined && fname.toLowerCase() === 'admin') {
       if (!errors['fname']) {
         setError('fname', {

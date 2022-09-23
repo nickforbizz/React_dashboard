@@ -30,8 +30,6 @@ function Appform() {
         <Divider light sx={{ mb: 2 }} className="divider" />
 
         <form>
-          
-
           <FormInputText
             name={'textInput'}
             control={control}
@@ -49,7 +47,6 @@ function Appform() {
             control={control}
             label={'DropDownInput'}
           />
-
 
           <FormInputDate
             name={'dateinput'}
