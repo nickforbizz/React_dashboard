@@ -74,7 +74,7 @@ function Users() {
     let [fname] = watchValues;
 
     // custorm errors
-    if (fname.toLowerCase() === 'admin') {
+    if (fname !== undefined && fname.toLowerCase() === 'admin') {
       if (!errors['fname']) {
         setError('fname', {
           type: 'manual',
