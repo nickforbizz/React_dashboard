@@ -12,6 +12,7 @@ function FormInputDate({ name, control, label }) {
               helperText={error ? error.message : null}
               size="small"
               type="date"
+              InputLabelProps={{ shrink: true }}
               error={!!error}
               onChange={onChange}
               value={value || ''}

@@ -45,7 +45,7 @@ code {
   }
 }
 
-.appbreadcrumb {
+.appbreadcrumb { 
   float: right ;
   margin-right: 1.5rem !important;
   display: flex;

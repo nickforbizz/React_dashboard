@@ -1,6 +1,7 @@
+import React from 'react';
 import { NavigateNext } from '@mui/icons-material';
 import { Breadcrumbs } from '@mui/material';
-import React from 'react';
+import styles from './appbreadcrumb.module.css'
 
 function Appbreadcrumb({ breadcrumbs }) {
   return (
@@ -8,10 +9,10 @@ function Appbreadcrumb({ breadcrumbs }) {
       <Breadcrumbs
         separator={<NavigateNext fontSize="small" />}
         aria-label="breadcrumb"
-        className='appbreadcrumb'
+        className={`${styles.nav} appbreadcrumb`}
       >
         {breadcrumbs}
-      </Breadcrumbs>
+      </Breadcrumbs> 
     </>
   );
 }
