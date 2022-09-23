@@ -4,13 +4,11 @@ import {
   Dashboard,
   ExpandMore,
   Forum,
-  Home,
   InsertChart,
   Logout,
   Notifications,
   People,
   Person,
-  Report,
   Settings,
 } from '@mui/icons-material';
 import { Accordion, AccordionDetails, AccordionSummary, Divider, IconButton, Typography } from '@mui/material';

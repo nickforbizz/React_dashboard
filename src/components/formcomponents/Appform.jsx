@@ -6,17 +6,16 @@ import FormInputRadio from './fields/FormInputRadio';
 import { FormInputDropdown } from './fields/FormInputDropdown';
 import FormInputDate from './fields/FormInputDate';
 import FormInputMultiCheckbox from './fields/FormInputMultiCheckbox';
-
+import FormInputFile from './fields/FormInputFile';
 
 const defaultValues = {
-  textValue: "",
-  radioValue: "",
+  textValue: '',
+  radioValue: '',
   checkboxValue: [],
   dateValue: new Date(),
-  dropdownValue: "",
+  dropdownValue: '',
   sliderValue: 0,
 };
-
 
 function Appform() {
   const methods = useForm({ defaultValues });
@@ -31,19 +30,7 @@ function Appform() {
         <Divider light sx={{ mb: 2 }} className="divider" />
 
         <form>
-          <Controller
-            name={'input_name'}
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <TextField
-                onChange={onChange}
-                value={value}
-                label={'Text Value'} //optional
-                placeholder={'Your input ...'} //optional
-                sx={{ width: 1, mb: 1 }}
-              />
-            )}
-          />
+          
 
           <FormInputText
             name={'textInput'}
@@ -63,21 +50,28 @@ function Appform() {
             label={'DropDownInput'}
           />
 
-        <FormInputDate
+
+          <FormInputDate
             name={'dateinput'}
             control={control}
             label={'DateInput'}
           />
 
-      <FormInputMultiCheckbox
-        control={control}
-        setValue={setValue}
-        name={"checkboxValue"}
-        label={"Checkbox Input"}
-      />
+          <FormInputFile
+            name={'fileinput'}
+            control={control}
+            label={'FileInput'}
+          />
 
-          
+          <FormInputMultiCheckbox
+            control={control}
+            setValue={setValue}
+            name={'checkboxValue'}
+            label={'Checkbox Input'}
+          />
         </form>
+
+        <Divider light sx={{ mb: 2 }} className="divider" />
 
         <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
         <Button onClick={() => reset()}>Reset</Button>

@@ -11,7 +11,7 @@ import {
 import React from 'react';
 import Appbreadcrumb from '../../../../components/breadcrumb/Appbreadcrumb';
 import Datatable from '../../../../components/datatable/Datatable';
-import Appform from '../../../../components/formcomponents/Appform';
+import Appnormalform from '../../../../components/formcomponents/Appnormalform';
 
 const style = {
   position: 'absolute',
@@ -40,6 +40,54 @@ function Users() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  let form_template = {
+    title: 'My Form Title',
+    watchFields: ['fname'],
+    fields: [
+      {
+        title: 'First Name',
+        type: 'text',
+        name: 'fname',
+        field_id: 'fname',
+        validationProps: {
+          required: 'First Name is required',
+        },
+      },
+      {
+        title: 'Last Name',
+        type: 'text',
+        name: 'lname',
+        field_id: 'lname',
+      },
+      {
+        title: 'Email',
+        type: 'email',
+        name: 'email',
+        field_id: 'email',
+      },
+    ],
+  };
+
+  const onSubmit = (data) => console.log(data);
+  const validate = (watchValues, errorMethods) => {
+    let { errors, setError, clearErrors } = errorMethods;
+    let [fname] = watchValues;
+
+    // custorm errors
+    if (fname.toLowerCase() === 'admin') {
+      if (!errors['fname']) {
+        setError('fname', {
+          type: 'manual',
+          message: 'You cannot use name Admin in this field',
+        });
+      }
+    } else {
+      if (errors['fname'] && errors['fname']['type'] === 'manual') {
+        clearErrors('fname');
+      }
+    }
+  };
+
   return (
     <>
       <div className="page_header">
@@ -62,9 +110,15 @@ function Users() {
           </Button>
         </Grid>
 
-        <Grid item xs={12}>
-          <Appform/>
+        <Grid item xs={12} sx={{ mb: 4, mt: 4 }}>
+          <Appnormalform
+            template={form_template}
+            onSubmit={onSubmit}
+            validate={validate}
+          />
+        </Grid>
 
+        <Grid item xs={12}>
           <Datatable />
         </Grid>
 
