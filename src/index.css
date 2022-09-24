@@ -57,7 +57,7 @@ code {
   }
 }
 
-.checkbox_div {
+.checkbox_div, .pr{
   position: relative;
   margin-bottom: 1rem;
 }
