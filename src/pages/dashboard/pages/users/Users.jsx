@@ -82,6 +82,17 @@ function Users() {
           value: true,
         },
       },
+      {
+        input_type: 'select',
+        title: 'Select Title',
+        type: 'select',
+        name: 'select',
+        field_id: 'select_id',
+        options: {
+          field: 'has_portifolio',
+          value: true,
+        },
+      },
     ],
   };
 

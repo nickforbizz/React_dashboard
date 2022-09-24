@@ -66,6 +66,21 @@ function Appnormalform({ template, onSubmit, validate }) {
               </label>
             </div>
           );
+        case 'select':
+          return (
+            <div className="pr" key={i}>
+                <select id={field_id} {...register(name, { ...validationProps })}>
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </select>
+                <label htmlFor={field_id}>{title}</label>
+                  {errors[name] && (
+                    <span className="red-text"> {errors[name].message} </span>
+                  )}
+            </div>
+          );
         default:
           return <div className="red-text">Invalid Field </div>;
       }

@@ -4,7 +4,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-
 // Layouts
 import Backlayout from './components/applayout/Backlayout';
 import Frontlayout from './components/applayout/Frontlayout';
@@ -22,8 +21,7 @@ import Notifications from './pages/dashboard/pages/notifications/Notifications';
 import Users from './pages/dashboard/pages/users/Users';
 import Profile from './pages/dashboard/pages/profile/Profile';
 import { ColorModeContext } from './context/ColorModeContext';
-
-
+import { GlobalStyles } from '@mui/material';
 
 function App() {
   const [mode, setMode] = React.useState('light');
@@ -33,7 +31,7 @@ function App() {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
       },
     }),
-    [],
+    []
   );
 
   const theme = React.useMemo(
@@ -49,12 +47,27 @@ function App() {
           },
         },
       }),
-    [mode],
+    [mode]
   );
+
+  let globalStyle = {};
+  mode === 'light'
+    ? (globalStyle = {
+        input: {
+          color: 'dark',
+        },
+      })
+    : (globalStyle = {
+        input: {
+          color: 'white',
+        },
+      });
+
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme} >
+      <ThemeProvider theme={theme}>
         <CssBaseline />
+        <GlobalStyles styles={globalStyle} />
         <Routes>
           <Route path="/" element={<Frontlayout />}>
             <Route index element={<Home />} />
