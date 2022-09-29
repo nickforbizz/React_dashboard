@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -22,6 +21,7 @@ import Users from './pages/dashboard/pages/users/Users';
 import Profile from './pages/dashboard/pages/profile/Profile';
 import { ColorModeContext } from './context/ColorModeContext';
 import { GlobalStyles } from '@mui/material';
+import Login from './pages/login/Login';
 
 function App() {
   const [mode, setMode] = React.useState('light');
@@ -72,6 +72,7 @@ function App() {
           <Route path="/" element={<Frontlayout />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
+            <Route path="login" element={<Login />} />
             <Route path="*" element={<Nopagefound />} />
           </Route>
 

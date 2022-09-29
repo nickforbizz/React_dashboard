@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Divider, IconButton } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
-function Appnormalform({ template, onSubmit, validate }) {
+function Appnormalform({ template, onSubmit, validate = () => {} }) {
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
   let {
     register,
     handleSubmit,
@@ -10,7 +15,7 @@ function Appnormalform({ template, onSubmit, validate }) {
     setError,
     clearErrors,
   } = useForm();
-  let { title, watchFields, fields } = template;
+  let { title, fields, watchFields = [] } = template;
   let watchValues = watch(watchFields);
 
   validate(watchValues, { errors, setError, clearErrors });
@@ -33,7 +38,7 @@ function Appnormalform({ template, onSubmit, validate }) {
       let [, has_portifolio] = watchValues;
       let showField = dynamic ? has_portifolio === dynamic['value'] : true;
 
-      if (!showField) return;
+      if (!showField) return 0;
 
       switch (input_type) {
         case 'input':
@@ -41,10 +46,31 @@ function Appnormalform({ template, onSubmit, validate }) {
             <div className="input-field" key={i}>
               <label htmlFor={field_id}>{title}</label>
               <input
-                type={type}
+                type={showPassword ? 'text' : type}
                 id={field_id}
+                autoComplete={field_id === 'password' ? 'on' : 'off'}
                 {...register(name, { ...validationProps })}
               />
+              {field_id === 'password' ? (
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  sx={{ ml: '-30px', cursor: 'pointer', position: 'absolute' }}
+                >
+                  {showPassword ? (
+                    <Visibility
+                      fontSize="small"
+                    />
+                  ) : (
+                    <VisibilityOff
+                      fontSize="small"
+                    />
+                  )}
+                </IconButton>
+              ) : (
+                ''
+              )}
               {errors[name] && (
                 <span className="red-text"> {errors[name].message} </span>
               )}
@@ -69,16 +95,44 @@ function Appnormalform({ template, onSubmit, validate }) {
         case 'select':
           return (
             <div className="pr" key={i}>
-                <select id={field_id} {...register(name, { ...validationProps })}>
-                    <option value="" disabled selected>Choose your option</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
-                </select>
-                <label htmlFor={field_id}>{title}</label>
-                  {errors[name] && (
-                    <span className="red-text"> {errors[name].message} </span>
-                  )}
+              <label htmlFor={field_id}>{title}</label>
+              <select
+                className="browser-default"
+                id={field_id}
+                {...register(name, { ...validationProps })}
+              >
+                <option defaultValue="" disabled>
+                  Choose your option
+                </option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+              </select>
+              {errors[name] && (
+                <span className="red-text"> {errors[name].message} </span>
+              )}
+            </div>
+          );
+
+        case 'select_multiple':
+          return (
+            <div className="pr" key={i}>
+              <label htmlFor={field_id}>{title}</label>
+              <select
+                className="browser-default"
+                id={field_id}
+                {...register(name, { ...validationProps })}
+              >
+                <option defaultValue="" disabled>
+                  Choose your option
+                </option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+              </select>
+              {errors[name] && (
+                <span className="red-text"> {errors[name].message} </span>
+              )}
             </div>
           );
         default:
@@ -90,9 +144,8 @@ function Appnormalform({ template, onSubmit, validate }) {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h4 className="m" sx={{ mb: 2 }}>
-          {title}
-        </h4>
+        <h4 sx={{ mb: 2 }}>{title}</h4>
+        <Divider light sx={{ mb: 3 }} className="divider" />
 
         <div>{renderFields(fields)}</div>
 

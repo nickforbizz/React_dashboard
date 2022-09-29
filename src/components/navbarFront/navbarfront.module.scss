@@ -1,0 +1,35 @@
+@media only screen and (max-width: 600px) {
+  .logolg {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .logosm {
+    display: none;
+  }
+}
+
+.app_navbar {
+  // background-color: red;
+}
+
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+}
+
+.barge {
+  margin-right: 1.8rem;
+}
