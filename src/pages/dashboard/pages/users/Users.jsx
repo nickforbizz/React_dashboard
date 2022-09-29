@@ -146,7 +146,7 @@ function Users() {
         </Grid>
 
         <Grid item xs={12}>
-          <Datatable />
+          <Datatable tb_title='Active Users'/>
         </Grid>
 
         <Grid item xs={12}>

@@ -4,7 +4,10 @@ import MUIDataTable from 'mui-datatables';
 import { Delete, Edit } from '@mui/icons-material';
 import { Paper } from '@mui/material';
 
-function Datatable() {
+function Datatable(props) {
+
+  let { tb_title, pagination=10 } = props;
+
   const columns = [
     {
       name: '#',
@@ -79,6 +82,7 @@ function Datatable() {
     { name: 'Joe James', company: 'Test Corp', city: 'Yonkers', state: 'NY' },
     { name: 'John Walsh', company: 'Test Corp', city: 'Hartford', state: 'CT' },
     { name: 'Bob Herm', company: 'Test Corp', city: 'Tampa', state: 'FL' },
+    { name: 'Nick Mwedwa', company: 'Edureca', city: 'Kimbo', state: 'FL' },
     {
       name: 'James Houston',
       company: 'Test Corp',
@@ -91,14 +95,16 @@ function Datatable() {
     filterType: 'checkbox',
     selectableRows: 'none',
     responsive: 'vertical',
+    rowsPerPage:pagination
   };
   return (
     <Paper className="app_datatable">
       <MUIDataTable
-        title={'Employee List'}
+        title={tb_title}
         data={data}
         columns={columns}
         options={options}
+        
       />
     </Paper>
   );

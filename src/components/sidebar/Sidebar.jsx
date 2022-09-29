@@ -94,7 +94,7 @@ function Sidebar() {
         <Typography className="sidebar-text"> Chats </Typography>
       </Link>
 
-      <Link to="/admin/" className="sidebar-item">
+      <Link to="/login" className="sidebar-item">
         <Logout className="icon" />
         <Typography className="sidebar-text"> Logout</Typography>
       </Link>

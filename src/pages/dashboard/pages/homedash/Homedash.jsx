@@ -1,15 +1,24 @@
-import { Divider, Grid, Typography } from '@mui/material';
+import { Launch } from '@mui/icons-material';
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Divider,
+  Grid,
+  Typography,
+} from '@mui/material';
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Appbreadcrumb from '../../../../components/breadcrumb/Appbreadcrumb';
 import Chart from '../../../../components/charts/Chart';
+import Datatable from '../../../../components/datatable/Datatable';
 import Featured from '../../../../components/featured/Featured';
 import Widget from '../../../../components/widget/Widget';
 import './homedash.scss';
 
 function Homedash() {
   const breadcrumbs = [
-        
     <Typography key="2" color="text.primary">
       Dashboard
     </Typography>,
@@ -24,7 +33,7 @@ function Homedash() {
         <Appbreadcrumb breadcrumbs={breadcrumbs} />
       </div>
 
-      <Divider light  sx={{ mb: 2 }} className='divider'/>
+      <Divider light sx={{ mb: 2 }} className="divider" />
 
       <Grid container className="widgets">
         <Widget />
@@ -33,43 +42,39 @@ function Homedash() {
         <Widget />
       </Grid>
 
-      <Grid container className="widgets">
-        <Grid  item xs={12} sm={4} md={4} lg={4}>
-          <Featured />
-        </Grid>
-
-        <Grid item xs={12} sm={8} md={8} lg={8}>
+      <Grid container>
+        <Grid item xs={12} sx={{ mb: 2 }}>
           <div className="card-shadow">
-            <Chart aspect={2 / 1} title={`The Last 6 Months Revenue`} />
+            <Chart aspect={3 / 1} title={`The Last 6 Months Revenue`} />
           </div>
         </Grid>
+
+        <Grid item xs={12} sm={4} md={4} lg={4}></Grid>
       </Grid>
 
-      <div className="contain">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quo
-        cupiditate natus, optio incidunt quos deleniti voluptas temporibus earum
-        fuga cumque adipisci nesciunt veniam fugiat error sunt facere sapiente
-        magnam.
-      </div>
+      <Grid container alignItems="stretch">
+        <Grid item component={Card} xs={12} sm={4} sx={{ m: 1 }}>
+          <CardContent sx={{ p: 0 }}>
+            <Featured />
+          </CardContent>
+          <CardActions>
+            <Button variant="outlined" sx={{ borderRadius: 28, mt: 2 }}>
+              Visit <Launch fontSize="small" sx={{ ml: 1 }} />
+            </Button>
+          </CardActions>
+        </Grid>
 
-      <div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quo
-        cupiditate natus, optio incidunt quos deleniti voluptas temporibus earum
-        fuga cumque adipisci nesciunt veniam fugiat error sunt facere sapiente
-        magnam.
-      </div>
-      <div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quo
-        cupiditate natus, optio incidunt quos deleniti voluptas temporibus earum
-        fuga cumque adipisci nesciunt veniam fugiat error sunt facere sapiente
-        magnam.
-      </div>
-      <div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quo
-        cupiditate natus, optio incidunt quos deleniti voluptas temporibus earum
-        fuga cumque adipisci nesciunt veniam fugiat error sunt facere sapiente
-        magnam.
-      </div>
+        <Grid item component={Card} xs sx={{ m: 1 }}>
+          <CardContent sx={{ p: 0 }}>
+            <Datatable tb_title="Latest User to Register" pagination={4} />
+          </CardContent>
+          <CardActions>
+            <Button variant="outlined" component={Link} to="/admin/users" sx={{ borderRadius: 28, mt: 2 }}>
+              Visit <Launch fontSize="small" sx={{ ml: 1 }} />
+            </Button>
+          </CardActions>
+        </Grid>
+      </Grid>
     </div>
   );
 }

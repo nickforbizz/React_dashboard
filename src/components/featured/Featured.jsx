@@ -7,10 +7,11 @@ import 'react-circular-progressbar/dist/styles.css';
 import styles from './featured.module.scss';
 import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 
-function Featured() {
+function Featured(props) {
+  
   return (
-    <div className={`${styles.featured_container_parent} `}>
-    <div className={`${styles.featured_container} card-shadow`}>
+    <div className={`${styles.featured_container_parent} `}> 
+    <div className={`${styles.featured_container} Xcard-shadow`}>
       <div className={styles.header}>
         <h4 className={styles.title}>Total Revenue</h4>
         <MoreVertIcon fontSize="small" />

@@ -1,11 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import NavbarFront from '../navbarFront/NavbarFront'
 import './frontlayout.scss'
 
 function Frontlayout({children}) {
   return (
     <div>
-      <h1>This is front layout</h1>
+      <NavbarFront />
       <main>
         <Outlet />
       </main>
