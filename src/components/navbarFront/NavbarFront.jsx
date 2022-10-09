@@ -16,19 +16,29 @@ import {
 } from '@mui/material';
 import { Brightness4, Brightness7, Menu } from '@mui/icons-material';
 import { ColorModeContext } from '../../context/ColorModeContext';
+import { Link } from 'react-router-dom';
 // import styles from './navbarfront.module.scss';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
+const navItems = ['Home', 'About', 'Contact', 'Login'];
 
 function NavbarFront(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const navLinks = (link) => {
+    let link_url =
+      link.toLowerCase() === 'home' ? '/' : `/${link.toLowerCase()}`;
+    return (
+      <Link to={link_url}>
+        <ListItemText primary={link} />
+      </Link>
+    );
   };
 
   const drawer = (
@@ -42,7 +52,7 @@ function NavbarFront(props) {
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
+              {navLinks(item)}
             </ListItemButton>
           </ListItem>
         ))}
@@ -84,20 +94,23 @@ function NavbarFront(props) {
               MkenyaDaima
             </Typography>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Button className="switch">
-                <label>
-                  {theme.palette.mode === 'dark' ? 'Off' : 'On'}
-                  <input type="checkbox" onChange={colorMode.toggleColorMode} />
-                  <span className="lever"></span>
-                  {theme.palette.mode === 'light' ? 'Off' : 'On'}
-                </label>
-              </Button>
-
               {navItems.map((item) => (
                 <Button key={item} sx={{ color: '#fff' }}>
-                  {item}
+                  {navLinks(item)}
                 </Button>
               ))}
+
+              <IconButton
+                sx={{ mr: 3 }}
+                onClick={colorMode.toggleColorMode}
+                color="inherit"
+              >
+                {theme.palette.mode === 'dark' ? (
+                  <Brightness7 />
+                ) : (
+                  <Brightness4 />
+                )}
+              </IconButton>
             </Box>
           </Toolbar>
         </AppBar>

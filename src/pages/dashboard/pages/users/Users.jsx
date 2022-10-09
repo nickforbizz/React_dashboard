@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Add } from '@mui/icons-material';
 import {
   Box,
@@ -8,10 +9,12 @@ import {
   Modal,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import useAxiosPrivate from '../../../../components/hooks/useAxiosPrivate';
 import Appbreadcrumb from '../../../../components/breadcrumb/Appbreadcrumb';
 import Datatable from '../../../../components/datatable/Datatable';
 import Appnormalform from '../../../../components/formcomponents/Appnormalform';
+import useAuth from '../../../../components/hooks/useAuth';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -25,20 +28,40 @@ const style = {
   p: 4,
 };
 
-function Users() {
-  const breadcrumbs = [
-    <Link href="/admin/" key="1" underline="hover">
-      Dashboard
-    </Link>,
+function UsersCopy() {
+  const [users, setUsers] = useState({});
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    <Typography key="2" color="text.primary">
-      Users
-    </Typography>,
-  ];
-
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    const USERS_URL = 'api/user/';
+    let isMounted = true;
+    let controller = new AbortController();
+    const getUsers = async () => {
+      try {
+        const res = await axiosPrivate.get(USERS_URL, {
+          signal: controller.signal,
+        });
+        console.log(res.data);
+        isMounted && setUsers(res.data);
+      } catch (err) {
+        console.error(err);
+        navigate('/login', { state: { from: location }, replace: true });
+      }
+    };
+
+    getUsers();
+
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, [axiosPrivate, location, navigate]);
 
   let form_template = {
     title: 'My Form Title',
@@ -115,6 +138,16 @@ function Users() {
     }
   };
 
+  const breadcrumbs = [
+    <Link href="/admin/" key="1" underline="hover">
+      Dashboard
+    </Link>,
+
+    <Typography key="2" color="text.primary">
+      Users
+    </Typography>,
+  ];
+
   return (
     <>
       <div className="page_header">
@@ -131,7 +164,7 @@ function Users() {
           <Button
             variant="outlined"
             sx={{ borderRadius: 28 }}
-            onClick={handleOpen}
+            // onClick={handleOpen}
           >
             Add User <Add fontSize="small" />
           </Button>
@@ -146,7 +179,7 @@ function Users() {
         </Grid>
 
         <Grid item xs={12}>
-          <Datatable tb_title='Active Users'/>
+          <Datatable tb_title="Active Users" />
         </Grid>
 
         <Grid item xs={12}>
@@ -171,4 +204,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default UsersCopy;

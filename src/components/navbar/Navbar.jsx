@@ -3,10 +3,11 @@ import {
   AppBar,
   Avatar,
   Badge,
+  Box,
   Toolbar,
   Typography,
 } from '@mui/material';
-import { Mail, NotificationAdd } from '@mui/icons-material';
+import { AccountCircle, Mail, NotificationAdd } from '@mui/icons-material';
 import styles from './navbar.module.scss';
 
 function Navbar() {
@@ -26,7 +27,7 @@ function Navbar() {
             <InputBase placeholder="Placeholder" />
           </div> */}
 
-          <div className={styles.icons}>
+          <Box className={styles.icons}>
             <Badge badgeContent={4} color="success" className={styles.barge}>
               <Mail color="action" />
             </Badge>
@@ -34,8 +35,8 @@ function Navbar() {
               <NotificationAdd color="action" />
             </Badge>
 
-            <Avatar alt="My Avator">N </Avatar>
-          </div>
+            <AccountCircle className='icon' />
+          </Box>
         </Toolbar>
       </AppBar>
     </div>
