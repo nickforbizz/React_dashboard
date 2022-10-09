@@ -6,9 +6,7 @@ import { Paper } from '@mui/material';
 
 function Datatable(props) {
 
-  let { tb_title, pagination=10 } = props;
-
-  const columns = [
+  const default_columns = [
     {
       name: '#',
       options: {
@@ -78,7 +76,7 @@ function Datatable(props) {
     },
   ];
 
-  const data = [
+  const default_data = [
     { name: 'Joe James', company: 'Test Corp', city: 'Yonkers', state: 'NY' },
     { name: 'John Walsh', company: 'Test Corp', city: 'Hartford', state: 'CT' },
     { name: 'Bob Herm', company: 'Test Corp', city: 'Tampa', state: 'FL' },
@@ -90,6 +88,9 @@ function Datatable(props) {
       state: 'TX',
     },
   ];
+
+  let { tb_title, pagination=10, columns=default_columns, data=default_data } = props;
+
 
   const options = {
     filterType: 'checkbox',

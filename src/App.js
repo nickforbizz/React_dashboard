@@ -22,6 +22,8 @@ import Profile from './pages/dashboard/pages/profile/Profile';
 import { ColorModeContext } from './context/ColorModeContext';
 import { GlobalStyles } from '@mui/material';
 import Login from './pages/login/Login';
+import RequireAuth from './components/hooks/RequireAuth';
+import PersistLogin from './components/hooks/PersistLogin';
 
 function App() {
   const [mode, setMode] = React.useState('light');
@@ -69,6 +71,9 @@ function App() {
         <CssBaseline />
         <GlobalStyles styles={globalStyle} />
         <Routes>
+
+
+
           <Route path="/" element={<Frontlayout />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
@@ -76,14 +81,20 @@ function App() {
             <Route path="*" element={<Nopagefound />} />
           </Route>
 
-          <Route path="/admin" element={<Backlayout />}>
-            <Route index element={<Homedash />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="users" element={<Users />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="*" element={<Dashnopagefound />} />
+          <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth />}>
+            <Route path="/admin" element={<Backlayout />}>
+              <Route index element={<Homedash />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="users" element={<Users />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="*" element={<Dashnopagefound />} />
+            </Route>
           </Route>
+          </Route>
+
+
         </Routes>
       </ThemeProvider>
     </ColorModeContext.Provider>

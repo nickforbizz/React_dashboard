@@ -1,4 +1,5 @@
 import {
+  AccountCircle,
   Brightness4,
   Brightness7,
   Dashboard,
@@ -11,99 +12,169 @@ import {
   Person,
   Settings,
 } from '@mui/icons-material';
-import { Accordion, AccordionDetails, AccordionSummary, Divider, IconButton, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Avatar,
+  Divider,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import { Container } from '@mui/system';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import './sidebar.css';
 import { ColorModeContext } from '../../context/ColorModeContext';
+import useAuth from '../hooks/useAuth';
+import useLogout from '../hooks/useLogout';
 
 function Sidebar() {
   const theme = useTheme();
-  const colorMode  = React.useContext(ColorModeContext);
- 
+  const colorMode = React.useContext(ColorModeContext);
+  const { auth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const logout = useLogout();
+
+  const signOut = async () => {
+    
+        try {
+          const res = await logout();
+          let code = res?.data?.code;
+          if(code === 1){
+            navigate('/login', { state: { from: location }, replace: true });
+          }else{
+            // :TODO
+            // alert logout fail
+          }
+        } catch (err) {
+          console.error(err);
+          // navigate('/login', { state: { from: location }, replace: true });
+        }
+  
+      
+  }
+
   return (
     <Container className="sidebar">
+      <div className="sidebar-item">
+        <Accordion
+          disableGutters
+          elevation={0}
+          sx={{
+            padding: 0,
+            margin: 0,
+            '&:before': {
+              display: 'none',
+            },
+          }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1a-content"
+            sx={{
+              padding: 0,
+              margin: 0,
+            }}
+          >
+            <AccountCircle className="icon" />
+            <Typography className="sidebar-text"> { auth.user.name } </Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ mb: 0 }}>
+            <Link
+              to="/admin/profile"
+              className="sidebar_item_dropdown"
+              
+            >
+              <Settings className="icon" sx={{ mb: 2 }}/>
+              <Typography className="sidebar-text" sx={{ mb: 2 }}> Settings </Typography>
+            </Link>
+            <Link
+              to="/admin/profile"
+              className="sidebar_item_dropdown"
+              sx={{ mb: 0 }}
+            >
+              <Person className="icon" />
+              <Typography className="sidebar-text"> profile</Typography>
+            </Link>
+          </AccordionDetails>
+        </Accordion>
+      </div>
       <Link to="/admin/" className="sidebar-item">
         {/* <> */}
         <Dashboard className="icon" />
         <Typography className="sidebar-text"> Dashboard</Typography>
         {/* </Link> */}
       </Link>
-
       <div className="sidebar-item">
-      <Accordion  
-      disableGutters
-        elevation={0}
-        sx={{
-          padding: 0,
-          margin: 0,
-            '&:before': {
-                display: 'none',
-            }
-        }}>
-      <AccordionSummary
-          expandIcon={<ExpandMore />}
-          aria-controls="panel1a-content"
+        <Accordion
+          disableGutters
+          elevation={0}
           sx={{
             padding: 0,
             margin: 0,
+            '&:before': {
+              display: 'none',
+            },
           }}
         >
-          <InsertChart className="icon" />
-          <Typography className="sidebar-text"> Reports</Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{ mb: 0 }}>
-          <Link to="/admin/users" className="sidebar_item_dropdown" sx={{ mb: 0 }}>
-          <People className="icon" />
-          <Typography className="sidebar-text"> Users</Typography>
-        </Link>
-        </AccordionDetails>
-          
-
-      </Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1a-content"
+            sx={{
+              padding: 0,
+              margin: 0,
+            }}
+          >
+            <InsertChart className="icon" />
+            <Typography className="sidebar-text"> Reports</Typography>
+          </AccordionSummary>
+          <AccordionDetails sx={{ mb: 0 }}>
+            <Link
+              to="/admin/users"
+              className="sidebar_item_dropdown"
+              sx={{ mb: 0 }}
+            >
+              <People className="icon" />
+              <Typography className="sidebar-text"> Users</Typography>
+            </Link>
+          </AccordionDetails>
+        </Accordion>
       </div>
-
       <Link to="/admin/users" className="sidebar-item">
         <People className="icon" />
         <Typography className="sidebar-text"> Users</Typography>
       </Link>
-
-      <Divider light  sx={{ mb: 2 }} className='divider'/>
+      <Divider light sx={{ mb: 2 }} className="divider" />
 
       <Link to="/admin/notifications" className="sidebar-item">
         <Notifications className="icon" />
         <Typography className="sidebar-text"> Notifications</Typography>
       </Link>
-
       <Link to="/admin/settings" className="sidebar-item">
         <Settings className="icon" />
         <Typography className="sidebar-text"> Settings</Typography>
       </Link>
-
-      <Divider light  sx={{ mb: 2 }} className='divider'/>
-
-      <Link to="/admin/profile" className="sidebar-item">
-        <Person className="icon" />
-        <Typography className="sidebar-text"> Profile</Typography>
-      </Link>
-
+      <Divider light sx={{ mb: 2 }} className="divider" />
+      
       <Link to="/admin/forum" className="sidebar-item">
         <Forum className="icon" />
         <Typography className="sidebar-text"> Chats </Typography>
       </Link>
-
-      <Link to="/login" className="sidebar-item">
+      <Link onClick={signOut} className="sidebar-item">
         <Logout className="icon" />
         <Typography className="sidebar-text"> Logout</Typography>
       </Link>
-
-
-      <Divider light  sx={{ mb: 3 }} className='divider'/>
+      <Divider light sx={{ mb: 3 }} className="divider" />
 
       {theme.palette.mode.toUpperCase()} Mode
-      <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+      <IconButton
+        sx={{ ml: 1 }}
+        onClick={colorMode.toggleColorMode}
+        color="inherit"
+      >
         {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
       </IconButton>
     </Container>

@@ -1,13 +1,18 @@
-import { Grid, Paper, Typography } from '@mui/material';
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import AuthContext from '../../context/AuthProvider';
+import React, { useEffect, useState } from 'react';
+import { Alert, AlertTitle, Grid } from '@mui/material';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Appnormalform from '../../components/formcomponents/Appnormalform';
 import Axios from '../../api/Axios';
+import useAuth from '../../components/hooks/useAuth';
 
 function Login(props) {
   const LOGIN_URL = 'api/user/login';
-  const { setAuth } = useContext(AuthContext);
-  const errRef = useRef();
+  const { setAuth } = useAuth();
+  const { auth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || '/admin'
+  // const errRef = useRef();
 
   const [errMsg, setErrMsg] = useState('');
 
@@ -48,15 +53,20 @@ function Login(props) {
         JSON.stringify({ email, password }),
         {
           headers: { 'Content-Type': 'application/json' },
-          // withCredentials: true, // this will require set of cors from origin
+          withCredentials: true, // this will require set of cors from origin
         }
       );
       let data = res?.data;
       let status = res?.statusText;
-      data ? setAuth(data) : setErrMsg(status);
-      console.log(res);
+      if(data) {
+        setAuth(data) 
+        Axios.defaults.headers.common['Authorization'] = `Bearer ${auth.token}`
+        navigate(from, { replace: true })
+      }else{
+        setErrMsg(status);
+      } 
     } catch (error) {
-      let err_msg = error?.response?.data;
+      let err_msg = error?.response?.data || "Fatal Error Occured";
       let err_status = error?.response?.status;
       setErrMsg(err_msg);
       console.error(err_msg);
@@ -75,16 +85,14 @@ function Login(props) {
         style={{ minHeight: '80vh' }}
       >
         <Grid item xs={8} sx={{ width: { xs: '80%', sm: '50%' } }}>
-          {errMsg ? 
-          <Paper className='red' sx={{p:2}}>
-            <Typography
-              variant="p"
-              ref={errRef}
-              className={` ${errMsg ? 'errmsg' : 'offscreen'}`}
-            >
+          {errMsg ? (
+            <Alert severity="error">
+              <AlertTitle>Error</AlertTitle>
               {errMsg}
-            </Typography>
-          </Paper> : '' }
+            </Alert>
+          ) : (
+            ''
+          )}
           <Appnormalform template={form_template} onSubmit={onSubmit} />
         </Grid>
       </Grid>
