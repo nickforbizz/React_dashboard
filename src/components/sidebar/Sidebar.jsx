@@ -42,6 +42,7 @@ function Sidebar() {
     
         try {
           const res = await logout();
+          console.log(res);
           let code = res?.data?.code;
           if(code === 1){
             navigate('/login', { state: { from: location }, replace: true });
