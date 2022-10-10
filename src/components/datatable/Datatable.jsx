@@ -2,7 +2,8 @@ import React from 'react';
 import './datatable.scss';
 import MUIDataTable from 'mui-datatables';
 import { Delete, Edit } from '@mui/icons-material';
-import { Paper } from '@mui/material';
+import {  Paper } from '@mui/material';
+
 
 function Datatable(props) {
 
@@ -49,6 +50,12 @@ function Datatable(props) {
         sort: false,
       },
     },
+   
+  ];
+
+
+
+  const actions = [
     {
       name: 'Actions',
       label: 'Actions',
@@ -59,12 +66,14 @@ function Datatable(props) {
           return (
             <div>
               <Edit
+                sx = {{cursor: 'pointer', mr:2}}
                 className="text-info"
                 role="button"
                 onClick={() => console.log(value, tableMeta)}
               />
 
               <Delete
+                sx = {{cursor: 'pointer'}}
                 className="text-danger"
                 role="button"
                 onClick={() => console.log(value, tableMeta)}
@@ -74,7 +83,9 @@ function Datatable(props) {
         },
       },
     },
-  ];
+  ]
+
+
 
   const default_data = [
     { name: 'Joe James', company: 'Test Corp', city: 'Yonkers', state: 'NY' },
@@ -89,24 +100,38 @@ function Datatable(props) {
     },
   ];
 
+
+
   let { tb_title, pagination=10, columns=default_columns, data=default_data } = props;
+  data = !data ? default_data : data;
+  columns = [...columns, ...actions]; 
+
 
 
   const options = {
     filterType: 'checkbox',
     selectableRows: 'none',
     responsive: 'vertical',
-    rowsPerPage:pagination
+    rowsPerPage:pagination,
+    MUIDataTableHeadCell: {
+      toolButton: {
+        justifyContent: 'left'
+      },
+    }, 
   };
+
+
+
+
   return (
     <Paper className="app_datatable">
-      <MUIDataTable
-        title={tb_title}
-        data={data}
-        columns={columns}
-        options={options}
-        
-      />
+        <MUIDataTable
+          title={tb_title}
+          data={data}
+          columns={columns}
+          options={options}
+          
+        />
     </Paper>
   );
 }

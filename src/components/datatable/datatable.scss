@@ -1,7 +1,4 @@
-.app_datatable{
-    margin: 0;
-    background-color: red;
-    // width: 100vw !important;
-    // overflow-x: scroll;
+.app_datatable > thead > tr > th{
+    text-align: start !important;
 
 }

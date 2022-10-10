@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import { Add } from '@mui/icons-material';
 import {
   Box,
@@ -13,8 +14,8 @@ import useAxiosPrivate from '../../../../components/hooks/useAxiosPrivate';
 import Appbreadcrumb from '../../../../components/breadcrumb/Appbreadcrumb';
 import Datatable from '../../../../components/datatable/Datatable';
 import Appnormalform from '../../../../components/formcomponents/Appnormalform';
-import useAuth from '../../../../components/hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
+import AppModal from '../../../../components/modal/AppModal';
 
 const style = {
   position: 'absolute',
@@ -28,15 +29,14 @@ const style = {
   p: 4,
 };
 
-function UsersCopy() {
+function Users() {
   const [users, setUsers] = useState({});
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openModal, setOpenModal] = useState(false);
+ 
 
   useEffect(() => {
     const USERS_URL = 'api/user/';
@@ -64,7 +64,7 @@ function UsersCopy() {
   }, [axiosPrivate, location, navigate]);
 
   let form_template = {
-    title: 'My Form Title',
+    title: 'Kindly Fill the below user form and submit!',
     watchFields: ['fname', 'has_portifolio'],
     fields: [
       {
@@ -119,6 +119,47 @@ function UsersCopy() {
     ],
   };
 
+  let user_columns = [
+    {
+      name: '#',
+      options: {
+        sort: true,
+        filter: false,
+        customBodyRender: (value, meta) => {
+          return meta.rowIndex + 1;
+        },
+      },
+    },
+    {
+      name: 'name',
+      label: 'Name',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: 'email',
+      label: 'Email',
+      options: {
+        filter: true,
+        sort: true,
+        align: 'center',
+      },
+    },
+    {
+      name: 'created_at',
+      label: 'Created At',
+      options: {
+        filter: true, 
+        sort: true,
+        customBodyRender: (value, meta) => {
+          return moment(value, "YYYYMMDD").fromNow();
+        },
+      },
+    },
+  ];
+
   const onSubmit = (data) => console.log(data);
   const validate = (watchValues, errorMethods) => {
     let { errors, setError, clearErrors } = errorMethods;
@@ -156,52 +197,47 @@ function UsersCopy() {
         </Typography>
         <Appbreadcrumb breadcrumbs={breadcrumbs} />
       </div>
-
       <Divider light sx={{ mb: 2 }} className="divider" />
+
+
+
 
       <Grid container>
         <Grid item xs={12} sx={{ mb: 2 }}>
           <Button
             variant="outlined"
             sx={{ borderRadius: 28 }}
-            // onClick={handleOpen}
-          >
+            onClick={()=>setOpenModal(true)}>
             Add User <Add fontSize="small" />
           </Button>
         </Grid>
 
+
+
         <Grid item xs={12} sx={{ mb: 4, mt: 4 }}>
-          <Appnormalform
-            template={form_template}
-            onSubmit={onSubmit}
-            validate={validate}
-          />
+          
         </Grid>
 
-        <Grid item xs={12}>
-          <Datatable tb_title="Active Users" />
-        </Grid>
+
 
         <Grid item xs={12}>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
-              </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography>
-            </Box>
-          </Modal>
+          <Datatable tb_title="Active Users" data={(users && users.length > 0 ) ? users : null} columns={user_columns} />
+        </Grid>
+
+
+
+        <Grid item xs={12}>
+          <AppModal show={openModal} close={()=>setOpenModal(false)} title={`Add | Edit User`}>
+            <Appnormalform
+              template={form_template}
+              onSubmit={onSubmit}
+              validate={validate}
+            /> 
+          </AppModal>
         </Grid>
       </Grid>
     </>
   );
 }
 
-export default UsersCopy;
+export default Users;

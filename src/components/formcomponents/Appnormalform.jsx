@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Divider, IconButton } from '@mui/material';
+import { Alert, Divider, IconButton } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 function Appnormalform({ template, onSubmit, validate = () => {} }) {
@@ -15,7 +15,7 @@ function Appnormalform({ template, onSubmit, validate = () => {} }) {
     setError,
     clearErrors,
   } = useForm();
-  let { title, fields, watchFields = [] } = template;
+  let { title='Kindly Fill the below form and submit!', fields, watchFields = [] } = template;
   let watchValues = watch(watchFields);
 
   validate(watchValues, { errors, setError, clearErrors });
@@ -144,7 +144,8 @@ function Appnormalform({ template, onSubmit, validate = () => {} }) {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h4 sx={{ mb: 2 }}>{title}</h4>
+        {/* <h6 >{title}</h6> */}
+        <Alert severity="info" sx={{ mb: 2 }}> {title} </Alert>
         <Divider light sx={{ mb: 3 }} className="divider" />
 
         <div>{renderFields(fields)}</div>
