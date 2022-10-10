@@ -16,9 +16,6 @@ function Login(props) {
 
   const [errMsg, setErrMsg] = useState('');
 
-  useEffect(() => {
-    // userRef.current.focus();
-  }, []);
 
   let form_template = {
     title: 'Login',
