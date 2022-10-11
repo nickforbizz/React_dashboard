@@ -69,7 +69,10 @@ function Datatable(props) {
                 sx = {{cursor: 'pointer', mr:2}}
                 className="text-info"
                 role="button"
-                onClick={() => console.log(value, tableMeta)}
+                onClick={() => {
+                let data = tableMeta.rowData.slice(1, -1);;
+                console.log(data);
+                props.passedFunction(data)}}
               />
 
               <Delete

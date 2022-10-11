@@ -1,0 +1,15 @@
+.root {
+    background: linear-gradient(45deg, #9013fe2f 15%, #50e3c33d 90%);
+    min-width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+.card {
+    max-width: 40%;
+    min-height: 20vh;
+    display: flex;
+    align-items: center;
+  }
