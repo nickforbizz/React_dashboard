@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useRefreshToken from "./useRefreshToken";
 import useAuth from "./useAuth";
+import Loader from "../loader/Loader";
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +30,7 @@ const PersistLogin = () => {
     return (
         <>
             {isLoading
-            ? <p>Loading ...</p>
+            ? <Loader />
             : <Outlet />}
         </>
     );

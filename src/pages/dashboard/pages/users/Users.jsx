@@ -16,6 +16,7 @@ import Datatable from '../../../../components/datatable/Datatable';
 import Appnormalform from '../../../../components/formcomponents/Appnormalform';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AppModal from '../../../../components/modal/AppModal';
+import { useForm } from 'react-hook-form';
 
 const style = {
   position: 'absolute',
@@ -34,6 +35,7 @@ function Users() {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+  const { setValue } = useForm();
 
   const [openModal, setOpenModal] = useState(false);
  
@@ -131,6 +133,15 @@ function Users() {
       },
     },
     {
+      name: '_id',
+      options: {
+        "filter":false,
+        "sort":false,
+        "display":false,
+        "viewColumns":false
+      },
+    },
+    {
       name: 'name',
       label: 'Name',
       options: {
@@ -179,6 +190,12 @@ function Users() {
     }
   };
 
+  let passedFunction = (val) => {
+    console.log(val[1]);
+    setValue('fname', val[1])
+    setOpenModal(true)
+  };
+
   const breadcrumbs = [
     <Link href="/admin/" key="1" underline="hover">
       Dashboard
@@ -214,14 +231,11 @@ function Users() {
 
 
 
-        <Grid item xs={12} sx={{ mb: 4, mt: 4 }}>
-          
-        </Grid>
-
 
 
         <Grid item xs={12}>
-          <Datatable tb_title="Active Users" data={(users && users.length > 0 ) ? users : null} columns={user_columns} />
+          <Datatable tb_title="Active Users" data={(users && users.length > 0 ) ? users : null} 
+                    columns={user_columns}  passedFunction={passedFunction}/>
         </Grid>
 
 
