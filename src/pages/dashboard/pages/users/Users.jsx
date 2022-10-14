@@ -31,11 +31,11 @@ const style = {
 };
 
 function Users() {
-  const [users, setUsers] = useState({});
+  const [users, setUsers] = useState(null);
+  const [user, setUser] = useState(null);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
-  const { setValue } = useForm();
 
   const [openModal, setOpenModal] = useState(false);
  
@@ -49,7 +49,6 @@ function Users() {
         const res = await axiosPrivate.get(USERS_URL, {
           signal: controller.signal,
         });
-        console.log(res.data);
         isMounted && setUsers(res.data);
       } catch (err) {
         console.error(err);
@@ -67,56 +66,22 @@ function Users() {
 
   let form_template = {
     title: 'Kindly Fill the below user form and submit!',
-    watchFields: ['fname', 'has_portifolio'],
+    watchFields: ['email'],
     fields: [
       {
-        title: 'First Name',
+        title: 'Names', 
         type: 'text',
-        name: 'fname',
-        field_id: 'fname',
+        name: 'name',
+        field_id: 'name',
         validationProps: {
-          required: 'First Name is required',
+          required: 'Name is required',
         },
-      },
-      {
-        title: 'Last Name',
-        type: 'text',
-        name: 'lname',
-        field_id: 'lname',
       },
       {
         title: 'Email',
         type: 'email',
         name: 'email',
         field_id: 'email',
-      },
-      {
-        input_type: 'checkbox',
-        title: 'Include Portifolio',
-        type: 'text',
-        name: 'has_portifolio',
-        field_id: 'has_portifolio',
-      },
-      {
-        title: 'Portfolio URL',
-        type: 'url',
-        name: 'portfolio',
-        field_id: 'portfolio_url',
-        dynamic: {
-          field: 'has_portifolio',
-          value: true,
-        },
-      },
-      {
-        input_type: 'select',
-        title: 'Select Title',
-        type: 'select',
-        name: 'select',
-        field_id: 'select_id',
-        options: {
-          field: 'has_portifolio',
-          value: true,
-        },
       },
     ],
   };
@@ -190,9 +155,10 @@ function Users() {
     }
   };
 
-  let passedFunction = (val) => {
-    console.log(val[1]);
-    setValue('fname', val[1])
+  let editRecord = (val) => {
+    let user = users.filter((user)=> user._id === val[0]);
+    if(user)
+      setUser(...user);
     setOpenModal(true)
   };
 
@@ -205,6 +171,7 @@ function Users() {
       Users
     </Typography>,
   ];
+
 
   return (
     <>
@@ -224,7 +191,10 @@ function Users() {
           <Button
             variant="outlined"
             sx={{ borderRadius: 28 }}
-            onClick={()=>setOpenModal(true)}>
+            onClick={()=>{
+              setUser({}); 
+              setOpenModal(true);
+              }}>
             Add User <Add fontSize="small" />
           </Button>
         </Grid>
@@ -235,7 +205,7 @@ function Users() {
 
         <Grid item xs={12}>
           <Datatable tb_title="Active Users" data={(users && users.length > 0 ) ? users : null} 
-                    columns={user_columns}  passedFunction={passedFunction}/>
+                    columns={user_columns}  editRecord={editRecord} />
         </Grid>
 
 
@@ -246,6 +216,8 @@ function Users() {
               template={form_template}
               onSubmit={onSubmit}
               validate={validate}
+              useForm={useForm} 
+              preloadValues={user} 
             /> 
           </AppModal>
         </Grid>

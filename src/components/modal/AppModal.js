@@ -76,7 +76,7 @@ export default function AppModal(props) {
         </BootstrapDialogTitle>
           <DialogContent dividers>
           <Box
-            component="form"
+            component="div"
             sx={{
               display: 'flex',
               flexDirection: 'column',

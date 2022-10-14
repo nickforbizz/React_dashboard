@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Appnormalform from '../../components/formcomponents/Appnormalform';
 import Axios from '../../api/Axios';
 import useAuth from '../../components/hooks/useAuth';
+import { useForm } from 'react-hook-form';
 
 function Login(props) {
   const LOGIN_URL = 'api/user/login';
@@ -90,7 +91,7 @@ function Login(props) {
           ) : (
             ''
           )}
-          <Appnormalform template={form_template} onSubmit={onSubmit} />
+          <Appnormalform template={form_template} onSubmit={onSubmit} useForm={useForm} />
         </Grid>
       </Grid>
     </div>

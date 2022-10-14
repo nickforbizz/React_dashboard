@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Alert, Divider, IconButton } from '@mui/material';
-import { useForm } from 'react-hook-form';
 
-function Appnormalform({ template, onSubmit, validate = () => {} }) {
+function Appnormalform(props) {
+  let { template, onSubmit, validate = () => {}} = props;
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+  // let register = 
+ 
   let {
     register,
     handleSubmit,
@@ -14,13 +17,21 @@ function Appnormalform({ template, onSubmit, validate = () => {} }) {
     formState: { errors },
     setError,
     clearErrors,
-  } = useForm();
+  } = props.useForm({
+    mode: "onChange",
+    defaultValues:props.preloadValues
+  });
+
+  let defaultValues = props?.preloadValues
+  
+
+  
   let { title='Kindly Fill the below form and submit!', fields, watchFields = [] } = template;
-  let watchValues = watch(watchFields);
+  let watchValues = watch(watchFields); 
 
   validate(watchValues, { errors, setError, clearErrors });
 
-  const renderFields = (fields) => {
+  const renderFields =  (fields) => {
     if (fields.length < 1) {
       return <h6>No Fields to this form</h6>;
     }
@@ -38,13 +49,13 @@ function Appnormalform({ template, onSubmit, validate = () => {} }) {
       let [, has_portifolio] = watchValues;
       let showField = dynamic ? has_portifolio === dynamic['value'] : true;
 
-      if (!showField) return 0;
 
+      if (!showField) return 0;
       switch (input_type) {
         case 'input':
           return (
             <div className="input-field" key={i}>
-              <label htmlFor={field_id}>{title}</label>
+              <label htmlFor={field_id} className={`${defaultValues?.name ? 'active' : ''}`}>{title} </label>
               <input
                 type={showPassword ? 'text' : type}
                 id={field_id}
@@ -79,7 +90,7 @@ function Appnormalform({ template, onSubmit, validate = () => {} }) {
         case 'checkbox':
           return (
             <div className="checkbox_div" key={i}>
-              <label htmlFor={field_id}>
+              <label htmlFor={field_id} className={`${defaultValues?.name ? 'active' : ''}`}>
                 <input
                   type="checkbox"
                   id={field_id}
@@ -95,7 +106,7 @@ function Appnormalform({ template, onSubmit, validate = () => {} }) {
         case 'select':
           return (
             <div className="pr" key={i}>
-              <label htmlFor={field_id}>{title}</label>
+              <label htmlFor={field_id} className={`${defaultValues?.name ? 'active' : ''}`}>{title}</label>
               <select
                 className="browser-default"
                 id={field_id}
@@ -117,7 +128,7 @@ function Appnormalform({ template, onSubmit, validate = () => {} }) {
         case 'select_multiple':
           return (
             <div className="pr" key={i}>
-              <label htmlFor={field_id}>{title}</label>
+              <label htmlFor={field_id} className={`${defaultValues?.name ? 'active' : ''}`}>{title}</label>
               <select
                 className="browser-default"
                 id={field_id}
@@ -138,9 +149,11 @@ function Appnormalform({ template, onSubmit, validate = () => {} }) {
         default:
           return <div className="red-text">Invalid Field </div>;
       }
-    });
-  };
 
+     
+    });
+    
+  };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
