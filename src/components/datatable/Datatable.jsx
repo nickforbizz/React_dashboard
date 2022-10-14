@@ -71,8 +71,7 @@ function Datatable(props) {
                 role="button"
                 onClick={() => {
                 let data = tableMeta.rowData.slice(1, -1);;
-                console.log(data);
-                props.passedFunction(data)}}
+                props.editRecord(data)}}
               />
 
               <Delete
