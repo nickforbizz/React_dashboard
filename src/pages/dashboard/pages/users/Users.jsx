@@ -17,6 +17,7 @@ import Appnormalform from '../../../../components/formcomponents/Appnormalform';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AppModal from '../../../../components/modal/AppModal';
 import { useForm } from 'react-hook-form';
+import UpdateTbData from '../../../../components/hooks/UpdateTbData';
 
 const style = {
   position: 'absolute',
@@ -38,10 +39,10 @@ function Users() {
   const location = useLocation();
 
   const [openModal, setOpenModal] = useState(false);
+  const USERS_URL = 'api/user/';
  
 
   useEffect(() => {
-    const USERS_URL = 'api/user/';
     let isMounted = true;
     let controller = new AbortController();
     const getUsers = async () => {
@@ -136,7 +137,23 @@ function Users() {
     },
   ];
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) =>{ 
+    const upsert_url = data?._id ? `${USERS_URL}update` : `${USERS_URL}create`;
+    // console.log(data);
+    await axiosPrivate.post(upsert_url, data)
+            .then(res=>{
+              let patched_user = res.data;
+              if(patched_user){
+                let new_users = UpdateTbData(patched_user, users);
+                setUsers(new_users);
+                setOpenModal(false)
+              }
+            })
+            .catch(err=>console.error(err))
+  }
+
+
+
   const validate = (watchValues, errorMethods) => {
     let { errors, setError, clearErrors } = errorMethods;
     let [fname] = watchValues;
@@ -155,11 +172,35 @@ function Users() {
     }
   };
 
+
+
   let editRecord = (val) => {
-    let user = users.filter((user)=> user._id === val[0]);
-    if(user)
-      setUser(...user);
+    let myuser = users.filter((user)=> user._id === val[0]);
+    if(myuser)
+      setUser(...myuser);
     setOpenModal(true)
+  };
+
+  let delRecord = async (val) => {
+    let user_id = val[0];
+    let myuser = users.filter((user)=> user._id === val[0])[0];
+
+
+    let del_url = `${USERS_URL}delete/${user_id}`
+    let verify = window.confirm(`Are you sure you want to delete this record `);
+    if(verify){
+      await axiosPrivate.post(del_url)
+            .then(res=>{
+              let patched_user = res.data;
+              if(patched_user){
+                let new_users = UpdateTbData(myuser, users, true);
+                setUsers(new_users);
+                setOpenModal(false)
+              }
+            })
+            .catch(err=>console.error(err))
+    }
+    
   };
 
   const breadcrumbs = [
@@ -204,8 +245,11 @@ function Users() {
 
 
         <Grid item xs={12}>
-          <Datatable tb_title="Active Users" data={(users && users.length > 0 ) ? users : null} 
-                    columns={user_columns}  editRecord={editRecord} />
+          <Datatable tb_title="Active Users" 
+              data={(users && users.length > 0 ) ? users : null} 
+              columns={user_columns}  
+              editRecord={editRecord}
+              delRecord={delRecord} />
         </Grid>
 
 
