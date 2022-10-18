@@ -7,7 +7,7 @@ import useAuth from '../../components/hooks/useAuth';
 import { useForm } from 'react-hook-form';
 
 function Login(props) {
-  const LOGIN_URL = 'api/user/login';
+  const LOGIN_URL = 'api/auth/login';
   const { setAuth } = useAuth();
   const { auth } = useAuth();
   const navigate = useNavigate();

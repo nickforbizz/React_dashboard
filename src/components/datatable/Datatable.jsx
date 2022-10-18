@@ -2,11 +2,9 @@ import React from 'react';
 import './datatable.scss';
 import MUIDataTable from 'mui-datatables';
 import { Delete, Edit } from '@mui/icons-material';
-import {  Paper } from '@mui/material';
-
+import { Paper } from '@mui/material';
 
 function Datatable(props) {
-
   const default_columns = [
     {
       name: '#',
@@ -50,10 +48,7 @@ function Datatable(props) {
         sort: false,
       },
     },
-   
   ];
-
-
 
   const actions = [
     {
@@ -66,28 +61,30 @@ function Datatable(props) {
           return (
             <div>
               <Edit
-                sx = {{cursor: 'pointer', mr:2}}
+                sx={{ cursor: 'pointer', mr: 2 }}
                 className="text-info"
                 role="button"
                 onClick={() => {
-                let data = tableMeta.rowData.slice(1, -1);;
-                props.editRecord(data)}}
+                  let data = tableMeta.rowData.slice(1, -1);
+                  props.editRecord(data);
+                }}
               />
 
               <Delete
-                sx = {{cursor: 'pointer'}}
+                sx={{ cursor: 'pointer' }}
                 className="text-danger"
                 role="button"
-                onClick={() => console.log(value, tableMeta)}
+                onClick={() => {
+                  let data = tableMeta.rowData.slice(1, -1);
+                  props.delRecord(data);
+                }}
               />
             </div>
           );
         },
       },
     },
-  ]
-
-
+  ];
 
   const default_data = [
     { name: 'Joe James', company: 'Test Corp', city: 'Yonkers', state: 'NY' },
@@ -102,38 +99,35 @@ function Datatable(props) {
     },
   ];
 
-
-
-  let { tb_title, pagination=10, columns=default_columns, data=default_data } = props;
+  let {
+    tb_title,
+    pagination = 10,
+    columns = default_columns,
+    data = default_data,
+  } = props;
   data = !data ? default_data : data;
-  columns = [...columns, ...actions]; 
-
-
+  columns = [...columns, ...actions];
 
   const options = {
     filterType: 'checkbox',
     selectableRows: 'none',
     responsive: 'vertical',
-    rowsPerPage:pagination,
+    rowsPerPage: pagination,
     MUIDataTableHeadCell: {
       toolButton: {
-        justifyContent: 'left'
+        justifyContent: 'left',
       },
-    }, 
+    },
   };
-
-
-
 
   return (
     <Paper className="app_datatable">
-        <MUIDataTable
-          title={tb_title}
-          data={data}
-          columns={columns}
-          options={options}
-          
-        />
+      <MUIDataTable
+        title={tb_title}
+        data={data}
+        columns={columns}
+        options={options}
+      />
     </Paper>
   );
 }
