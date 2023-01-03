@@ -50,6 +50,8 @@ function Datatable(props) {
     },
   ];
 
+  // console.log(prop.);
+
   const actions = [
     {
       name: 'Actions',

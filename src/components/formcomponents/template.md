@@ -46,6 +46,9 @@
         type: 'select',
         name: 'select',
         field_id: 'select_id',
+        select_options: {
+          key: 'value'
+        }
         options: {
           field: 'has_portifolio',
           value: true,

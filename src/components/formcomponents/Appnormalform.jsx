@@ -31,6 +31,20 @@ function Appnormalform(props) {
 
   validate(watchValues, { errors, setError, clearErrors });
 
+  const getOptions = (select_options) => {
+    console.log(select_options);
+    if(select_options && select_options.length > 0){
+      return select_options.map(({ key, value }) => {
+        let option_key = key;
+        return (
+          <option value={option_key} > {value} </option>
+        )     
+
+      })
+    }
+  }
+
+
   const renderFields =  (fields) => {
     if (fields.length < 1) {
       return <h6>No Fields to this form</h6>;
@@ -44,6 +58,7 @@ function Appnormalform(props) {
         name,
         field_id,
         validationProps,
+        select_options,
         dynamic,
       } = field;
       let [, has_portifolio] = watchValues;
@@ -115,9 +130,7 @@ function Appnormalform(props) {
                 <option defaultValue="" disabled>
                   Choose your option
                 </option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
+                { getOptions(select_options) }
               </select>
               {errors[name] && (
                 <span className="red-text"> {errors[name].message} </span>
