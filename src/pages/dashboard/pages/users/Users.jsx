@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import { Add } from '@mui/icons-material';
 import {
+  Alert,
+  AlertTitle,
   Box,
   Button,
   Divider,
@@ -37,9 +39,11 @@ function Users() {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
+  const [errMsg, setErrMsg] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
   const USERS_URL = 'api/user/';
+  const AUTH_URL = 'api/auth/';
  
 
   useEffect(() => {
@@ -50,7 +54,7 @@ function Users() {
         const res = await axiosPrivate.get(USERS_URL, {
           signal: controller.signal,
         });
-        isMounted && setUsers(res.data);
+        isMounted && setUsers(res?.data?.data);
       } catch (err) {
         console.error(err);
         navigate('/login', { state: { from: location }, replace: true });
@@ -87,6 +91,44 @@ function Users() {
     ],
   };
 
+
+  let form_template_update = {
+    title: 'Kindly Fill the below user form and submit!',
+    watchFields: ['email'],
+    fields: [
+      {
+        title: 'Names', 
+        type: 'text',
+        name: 'name',
+        field_id: 'name',
+        validationProps: {
+          required: 'Name is required',
+        },
+      },
+      {
+        title: 'Email',
+        type: 'email',
+        name: 'email',
+        field_id: 'email',
+      },
+      {
+        input_type: 'select',
+        title: 'Active',
+        type: 'select',
+        name: 'active',
+        field_id: 'select_id',
+        select_options: [
+          {key: 1,  value: 'Yes'},
+          {key: 0,  value: 'No'}
+        ],
+        options: {
+          field: 'has_portifolio',
+          value: true,
+        },
+      },
+    ],
+  };
+
   let user_columns = [
     {
       name: '#',
@@ -99,7 +141,7 @@ function Users() {
       },
     },
     {
-      name: '_id',
+      name: 'id',
       options: {
         "filter":false,
         "sort":false,
@@ -125,7 +167,7 @@ function Users() {
       },
     },
     {
-      name: 'created_at',
+      name: 'createdAt',
       label: 'Created At',
       options: {
         filter: true, 
@@ -138,18 +180,24 @@ function Users() {
   ];
 
   const onSubmit = async (data) =>{ 
-    const upsert_url = data?._id ? `${USERS_URL}update` : `${USERS_URL}create`;
+    console.log(data);
+    const upsert_url = data?.id ? `${USERS_URL}update/${data?.id}` : `${AUTH_URL}register`;
     // console.log(data);
     await axiosPrivate.post(upsert_url, data)
             .then(res=>{
-              let patched_user = res.data;
+              console.log(res);
+              let patched_user = res?.data?.data;
               if(patched_user){
                 let new_users = UpdateTbData(patched_user, users);
                 setUsers(new_users);
                 setOpenModal(false)
               }
             })
-            .catch(err=>console.error(err))
+            .catch(err=>{
+              let err_msg = err?.response?.data?.message || "Fatal Error Occured";
+              let err_status = err?.response?.status;
+              setErrMsg(err_msg);
+            })
   }
 
 
@@ -175,7 +223,7 @@ function Users() {
 
 
   let editRecord = (val) => {
-    let myuser = users.filter((user)=> user._id === val[0]);
+    let myuser = users.filter((user)=> user.id === val[0]);
     if(myuser)
       setUser(...myuser);
     setOpenModal(true)
@@ -183,7 +231,7 @@ function Users() {
 
   let delRecord = async (val) => {
     let user_id = val[0];
-    let myuser = users.filter((user)=> user._id === val[0])[0];
+    let myuser = users.filter((user)=> user.id === val[0])[0];
 
 
     let del_url = `${USERS_URL}delete/${user_id}`
@@ -256,8 +304,16 @@ function Users() {
 
         <Grid item xs={12}>
           <AppModal show={openModal} close={()=>setOpenModal(false)} title={`Add | Edit User`}>
+            {errMsg ? (
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                {errMsg}
+              </Alert>
+            ) : (
+              ''
+            )}
             <Appnormalform
-              template={form_template}
+              template = {(users && users.length > 0 ) ? form_template_update : form_template} 
               onSubmit={onSubmit}
               validate={validate}
               useForm={useForm} 
