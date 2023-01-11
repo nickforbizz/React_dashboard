@@ -24,6 +24,8 @@ import { GlobalStyles } from '@mui/material';
 import Login from './pages/login/Login';
 import RequireAuth from './components/hooks/RequireAuth';
 import PersistLogin from './components/hooks/PersistLogin';
+import Makes from './pages/dashboard/pages/makes/Makes';
+import Models from './pages/dashboard/pages/models/Models';
 
 function App() {
   const [mode, setMode] = React.useState('light');
@@ -88,6 +90,8 @@ function App() {
               <Route path="settings" element={<Settings />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="users" element={<Users />} />
+              <Route path="makes" element={<Makes />} />
+              <Route path="models" element={<Models />} />
               <Route path="profile" element={<Profile />} />
               <Route path="*" element={<Dashnopagefound />} />
             </Route>

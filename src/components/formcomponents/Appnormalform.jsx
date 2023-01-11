@@ -37,7 +37,7 @@ function Appnormalform(props) {
       return select_options.map(({ key, value }) => {
         let option_key = key;
         return (
-          <option value={option_key} > {value} </option>
+          <option key={key} value={option_key} > {value} </option>
         )     
 
       })
@@ -70,7 +70,7 @@ function Appnormalform(props) {
         case 'input':
           return (
             <div className="input-field" key={i}>
-              <label htmlFor={field_id} className={`${defaultValues?.name ? 'active' : ''}`}>{title} </label>
+              <label htmlFor={field_id} className={`${defaultValues[field_id] ? 'active' : ''}`}>{title} </label>
               <input
                 type={showPassword ? 'text' : type}
                 id={field_id}
@@ -105,7 +105,7 @@ function Appnormalform(props) {
         case 'checkbox':
           return (
             <div className="checkbox_div" key={i}>
-              <label htmlFor={field_id} className={`${defaultValues?.name ? 'active' : ''}`}>
+              <label htmlFor={field_id} className={`${defaultValues[field_id] ? 'active' : ''}`}>
                 <input
                   type="checkbox"
                   id={field_id}
@@ -121,7 +121,7 @@ function Appnormalform(props) {
         case 'select':
           return (
             <div className="pr" key={i}>
-              <label htmlFor={field_id} className={`${defaultValues?.name ? 'active' : ''}`}>{title}</label>
+              <label htmlFor={field_id} className={`${defaultValues[field_id] ? 'active' : ''}`}>{title}</label>
               <select
                 className="browser-default"
                 id={field_id}
@@ -141,7 +141,7 @@ function Appnormalform(props) {
         case 'select_multiple':
           return (
             <div className="pr" key={i}>
-              <label htmlFor={field_id} className={`${defaultValues?.name ? 'active' : ''}`}>{title}</label>
+              <label htmlFor={field_id} className={`${defaultValues[field_id] ? 'active' : ''}`}>{title}</label>
               <select
                 className="browser-default"
                 id={field_id}

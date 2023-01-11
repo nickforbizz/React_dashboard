@@ -8,15 +8,15 @@ import { useForm } from 'react-hook-form';
 
 function Login(props) {
   const LOGIN_URL = 'api/auth/login';
+  const [user, setUser] = useState({});
   const { setAuth } = useAuth();
   const { auth } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state?.from?.pathname || '/admin'
+  const from = location?.state?.from?.pathname || '/admin';
   // const errRef = useRef();
 
   const [errMsg, setErrMsg] = useState('');
-
 
   let form_template = {
     title: 'Login',
@@ -56,15 +56,15 @@ function Login(props) {
       );
       let data = res?.data;
       let status = res?.statusText;
-      if(data) {
-        setAuth(data) 
-        Axios.defaults.headers.common['Authorization'] = `Bearer ${auth.token}`
-        navigate(from, { replace: true })
-      }else{
+      if (data) {
+        setAuth(data);
+        Axios.defaults.headers.common['Authorization'] = `Bearer ${auth.token}`;
+        navigate(from, { replace: true });
+      } else {
         setErrMsg(status);
-      } 
+      }
     } catch (error) {
-      let err_msg = error?.response?.data || "Fatal Error Occured";
+      let err_msg = error?.response?.data || 'Fatal Error Occured';
       let err_status = error?.response?.status;
       setErrMsg(err_msg);
       console.error(err_msg);
@@ -91,7 +91,12 @@ function Login(props) {
           ) : (
             ''
           )}
-          <Appnormalform template={form_template} onSubmit={onSubmit} useForm={useForm} />
+          <Appnormalform
+            template={form_template}
+            onSubmit={onSubmit}
+            useForm={useForm}
+            preloadValues={user} 
+          />
         </Grid>
       </Grid>
     </div>
