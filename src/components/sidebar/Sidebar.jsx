@@ -150,6 +150,36 @@ function Sidebar() {
       </Link>
       <Divider light sx={{ mb: 2 }} className="divider" />
 
+      <Link to="/admin/makes" className="sidebar-item">
+        <People className="icon" />
+        <Typography className="sidebar-text"> Makes</Typography>
+      </Link>
+      <Divider light sx={{ mb: 2 }} className="divider" />
+
+      <Link to="/admin/models" className="sidebar-item">
+        <People className="icon" />
+        <Typography className="sidebar-text"> Models</Typography>
+      </Link>
+      <Divider light sx={{ mb: 2 }} className="divider" />
+
+      <Link to="/admin/users" className="sidebar-item">
+        <People className="icon" />
+        <Typography className="sidebar-text"> Product Category</Typography>
+      </Link>
+      <Divider light sx={{ mb: 2 }} className="divider" />
+
+      <Link to="/admin/users" className="sidebar-item">
+        <People className="icon" />
+        <Typography className="sidebar-text"> Products</Typography>
+      </Link>
+      <Divider light sx={{ mb: 2 }} className="divider" />
+
+      <Link to="/admin/users" className="sidebar-item">
+        <People className="icon" />
+        <Typography className="sidebar-text"> Sales</Typography>
+      </Link>
+      <Divider light sx={{ mb: 2 }} className="divider" />
+
       <Link to="/admin/notifications" className="sidebar-item">
         <Notifications className="icon" />
         <Typography className="sidebar-text"> Notifications</Typography>
