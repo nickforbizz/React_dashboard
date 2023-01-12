@@ -3,7 +3,7 @@ function ReshapeModelData(data, extractiondata) {
     
     if(data && data.length > 0){
         let new_data = data.map((item,i) => {
-            
+            // console.log(item)
             if(extractiondata.length>0){
                 let inner_obj = extractiondata.map((inner_item, j) => {
                     let obj = item[extractiondata[j]];
@@ -13,7 +13,7 @@ function ReshapeModelData(data, extractiondata) {
                             Object.getOwnPropertyDescriptor(obj, key));
                         delete obj[key];
                     }
-                    console.log(obj)
+                    // console.log(obj)
                     return obj
                 });
 

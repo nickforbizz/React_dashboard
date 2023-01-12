@@ -32,7 +32,7 @@ function Appnormalform(props) {
   validate(watchValues, { errors, setError, clearErrors });
 
   const getOptions = (select_options) => {
-    console.log(select_options);
+    // console.log(select_options);
     if(select_options && select_options.length > 0){
       return select_options.map(({ key, value }) => {
         let option_key = key;
@@ -127,7 +127,7 @@ function Appnormalform(props) {
                 id={field_id}
                 {...register(name, { ...validationProps })}
               >
-                <option defaultValue="" disabled>
+                <option defaultValue="" disabled >
                   Choose your option
                 </option>
                 { getOptions(select_options) }

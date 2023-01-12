@@ -19,6 +19,7 @@ import AppModal from '../../../../components/modal/AppModal';
 import { useForm } from 'react-hook-form';
 import UpdateTbData from '../../../../components/hooks/UpdateTbData';
 import ReshapeModelData from '../../../../components/hooks/ReshapeModelData';
+import ReshapeSelectData from '../../../../components/hooks/ReshapeSelectData';
 
 const style = {
   position: 'absolute',
@@ -34,6 +35,7 @@ const style = {
 
 function Models() {
   const [models, setModels] = useState({});
+  const [makes, setMakes] = useState({});
   const [reshapedmodels, setReshapedmodels] = useState({});
   const [model, setModel] = useState(null);
   const axiosPrivate = useAxiosPrivate();
@@ -44,7 +46,7 @@ function Models() {
   const [openModal, setOpenModal] = useState(false);
   const MODELS_URL_ALL = 'api/models/all';
   const MODELS_URL = 'api/models/';
-  
+  const MAKE_URL = 'api/makes/';
 
   useEffect(() => {
     let isMounted = true;
@@ -57,7 +59,18 @@ function Models() {
         isMounted && setModels(res?.data?.data);
 
         setReshapedmodels(ReshapeModelData(res?.data?.data, ['make']));
-        
+      } catch (err) {
+        console.error(err);
+        // navigate('/login', { state: { from: location }, replace: true });
+      }
+    };
+
+    const getMakes = async () => {
+      try {
+        const res = await axiosPrivate.get(MAKE_URL, {
+          signal: controller.signal,
+        });
+        isMounted && setMakes(res?.data?.data);
       } catch (err) {
         console.error(err);
         // navigate('/login', { state: { from: location }, replace: true });
@@ -65,6 +78,7 @@ function Models() {
     };
 
     getModels();
+    getMakes();
 
     return () => {
       isMounted = false;
@@ -76,7 +90,7 @@ function Models() {
     title: 'Kindly Fill the below form and submit!',
     fields: [
       {
-        title: 'Title', 
+        title: 'Title',
         type: 'text',
         name: 'title',
         field_id: 'title',
@@ -85,44 +99,70 @@ function Models() {
         },
       },
       {
+        input_type: 'select',
+        title: 'Make',
+        type: 'select',
+        name: 'vehicle_make_id',
+        field_id: 'select_make_id',
+        select_options: ReshapeSelectData(makes, ['id', 'title']),
+      },
+      {
         title: 'Description',
         type: 'text',
         name: 'description',
         field_id: 'description',
       },
+      {
+        input_type: 'select',
+        title: 'Active',
+        type: 'select',
+        name: 'active',
+        field_id: 'select_id',
+        select_options: [
+          { key: 1, value: 'Yes' },
+          { key: 0, value: 'No' },
+        ],
+      },
     ],
   };
-
 
   let form_template_update = {
     title: 'Kindly Fill the below form and submit!',
     fields: [
-        {
-            title: 'Title', 
-            type: 'text',
-            name: 'title',
-            field_id: 'title',
-            validationProps: {
-              required: 'title is required',
-            },
-          },
-          {
-            title: 'Description',
-            type: 'text',
-            name: 'description',
-            field_id: 'description',
-          },
-          {
-            input_type: 'select',
-            title: 'Active',
-            type: 'select',
-            name: 'active',
-            field_id: 'select_id',
-            select_options: [
-              {key: 1,  value: 'Yes'},
-              {key: 0,  value: 'No'}
-            ]
-          },
+      {
+        title: 'Title',
+        type: 'text',
+        name: 'title',
+        field_id: 'title',
+        validationProps: {
+          required: 'title is required',
+        },
+      },
+      {
+        input_type: 'select',
+        title: 'Make',
+        type: 'select',
+        name: 'vehicleMakeId',
+        field_id: 'select_make_id',
+        select_options: ReshapeSelectData(makes, ['id', 'title']),
+      },
+      {
+        title: 'Description',
+        type: 'text',
+        name: 'description',
+        field_id: 'description',
+      },
+      {
+        input_type: 'select',
+        title: 'Active',
+        type: 'select',
+        name: 'active',
+        field_id: 'select_id',
+        select_options: [
+          { key: 1, value: 'Yes' },
+          { key: 0, value: 'No' },
+        ],
+      },
     ],
   };
 
@@ -140,20 +180,20 @@ function Models() {
     {
       name: 'id',
       options: {
-        "filter":false,
-        "sort":false,
-        "display":false,
-        "viewColumns":false
+        filter: false,
+        sort: false,
+        display: false,
+        viewColumns: false,
       },
     },
     {
-        name: 'make_title',
-        label: 'Category',
-        options: {
-          filter: true,
-          sort: true,
-        },
+      name: 'make_title',
+      label: 'Category',
+      options: {
+        filter: true,
+        sort: true,
       },
+    },
     {
       name: 'title',
       label: 'Title',
@@ -172,80 +212,74 @@ function Models() {
       },
     },
     {
-        name: 'active',
-        label: 'Active',
-        options: {
-          filter: true,
-          sort: true,
-          align: 'center',
-        },
+      name: 'active',
+      label: 'Active',
+      options: {
+        filter: true,
+        sort: true,
+        align: 'center',
       },
+    },
     {
       name: 'createdAt',
       label: 'Created At',
       options: {
-        filter: true, 
+        filter: true,
         sort: true,
         customBodyRender: (value, meta) => {
-          return moment(value, "YYYYMMDD").fromNow();
+          return moment(value, 'YYYYMMDD').fromNow();
         },
       },
     },
   ];
 
-  const onSubmit = async (data) =>{ 
-    const upsert_url = data?.id ? `${MODELS_URL}update/${data?.id}` : `${MODELS_URL}`;
+  const onSubmit = async (data) => {
+    const upsert_url = data?.id
+      ? `${MODELS_URL}update/${data?.id}`
+      : `${MODELS_URL}`;
     // console.log(data);
-    await axiosPrivate.post(upsert_url, data)
-            .then(res=>{
-              console.log(res);
-              let patched_record = res?.data?.data;
-              if(patched_record){
-                let new_records = UpdateTbData(patched_record, models);
-                setModels(new_records);
-                setOpenModal(false)
-              }
-            })
-            .catch(err=>{
-              let err_msg = err?.response?.data?.message || "Fatal Error Occured";
-              let err_status = err?.response?.status;
-              setErrMsg(err_msg);
-            })
-  }
-
-
-
-
-
-
+    await axiosPrivate
+      .post(upsert_url, data)
+      .then((res) => {
+        let patched_record = res?.data?.data;
+        if (patched_record) {
+          let new_records = UpdateTbData(patched_record, models);
+          setModels(new_records);
+          setOpenModal(false);
+        }
+      })
+      .catch((err) => {
+        let err_msg = err?.response?.data?.message || 'Fatal Error Occured';
+        let err_status = err?.response?.status;
+        setErrMsg(err_msg);
+      });
+  };
 
   let editRecord = (val) => {
-    let mymodel = models.filter((item)=> item.id === val[0]);
-    if(mymodel)
-      setModel(...mymodel);
-    setOpenModal(true)
+    let mymodel = models.filter((item) => item.id === val[0]);
+    if (mymodel) setModel(...mymodel);
+    setOpenModal(true);
   };
 
   let delRecord = async (val) => {
     let record_id = val[0];
-    let mymodel = models.filter((item)=> item.id === val[0])[0];
+    let mymodel = models.filter((item) => item.id === val[0])[0];
 
-
-    let del_url = `${MODELS_URL}delete/${record_id}`
+    let del_url = `${MODELS_URL}delete/${record_id}`;
     let verify = window.confirm(`Are you sure you want to delete this record `);
-    if(verify){
-      await axiosPrivate.post(del_url)
-            .then(res=>{
-              let patched_record = res.data;
-              if(patched_record){
-                let new_records = UpdateTbData(mymodel, models, true);
-                setModels(new_records);
-                setOpenModal(false)
-              }
-            })
-            .catch(err=>console.error(err))
+    if (verify) {
+      await axiosPrivate
+        .post(del_url)
+        .then((res) => {
+          let patched_record = res.data;
+          if (patched_record) {
+            let new_records = UpdateTbData(mymodel, models, true);
+            setModels(new_records);
+            setOpenModal(false);
+          }
+        })
+        .catch((err) => console.error(err));
     }
-    
   };
 
   const breadcrumbs = [
@@ -258,49 +292,50 @@ function Models() {
     </Typography>,
   ];
 
-
   return (
     <>
       <div className="page_header">
         <Typography variant={'h5'} component={'h5'} className="pagetitle">
-        Models Page
+          Models Page
         </Typography>
         <Appbreadcrumb breadcrumbs={breadcrumbs} />
       </div>
       <Divider light sx={{ mb: 2 }} className="divider" />
-
-
-
 
       <Grid container>
         <Grid item xs={12} sx={{ mb: 2 }}>
           <Button
             variant="outlined"
             sx={{ borderRadius: 28 }}
-            onClick={()=>{
-              setModel({}); 
+            onClick={() => {
+              setModel({});
               setOpenModal(true);
-              }}>
+            }}
+          >
             Add Model <Add fontSize="small" />
           </Button>
         </Grid>
 
-
-
-
-
         <Grid item xs={12}>
-          <Datatable tb_title="Active Models" 
-              data={(reshapedmodels && reshapedmodels.length > 0 ) ? reshapedmodels : null} 
-              columns={data_columns}  
-              editRecord={editRecord}
-              delRecord={delRecord} />
+          <Datatable
+            tb_title="Active Models"
+            data={
+              reshapedmodels && reshapedmodels.length > 0
+                ? reshapedmodels
+                : null
+            }
+            columns={data_columns}
+            editRecord={editRecord}
+            delRecord={delRecord}
+          />
         </Grid>
 
-
-
         <Grid item xs={12}>
-          <AppModal show={openModal} close={()=>setOpenModal(false)} title={`Add | Edit User`}>
+          <AppModal
+            show={openModal}
+            close={() => setOpenModal(false)}
+            title={`Add | Edit User`}
+          >
             {errMsg ? (
               <Alert severity="error">
                 <AlertTitle>Error</AlertTitle>
@@ -310,11 +345,15 @@ function Models() {
               ''
             )}
             <Appnormalform
-              template = {(models && models.length > 0 ) ? form_template_update : form_template} 
+              template={
+                model && Object.keys(model).length === 0
+                  ? form_template
+                  : form_template_update
+              }
               onSubmit={onSubmit}
-              useForm={useForm} 
-              preloadValues={model} 
-            /> 
+              useForm={useForm}
+              preloadValues={model}
+            />
           </AppModal>
         </Grid>
       </Grid>
