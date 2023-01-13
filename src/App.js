@@ -26,6 +26,7 @@ import RequireAuth from './components/hooks/RequireAuth';
 import PersistLogin from './components/hooks/PersistLogin';
 import Makes from './pages/dashboard/pages/makes/Makes';
 import Models from './pages/dashboard/pages/models/Models';
+import ProductCategory from './pages/dashboard/pages/product_category/ProductCategory';
 
 function App() {
   const [mode, setMode] = React.useState('light');
@@ -92,6 +93,9 @@ function App() {
               <Route path="users" element={<Users />} />
               <Route path="makes" element={<Makes />} />
               <Route path="models" element={<Models />} />
+              <Route path="product_category" element={<ProductCategory />} />
+              <Route path="products" element={<Models />} />
+              <Route path="sales" element={<Models />} />
               <Route path="profile" element={<Profile />} />
               <Route path="*" element={<Dashnopagefound />} />
             </Route>
