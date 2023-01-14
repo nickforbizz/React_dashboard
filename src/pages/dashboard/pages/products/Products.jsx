@@ -21,44 +21,39 @@ import UpdateTbData from '../../../../components/hooks/UpdateTbData';
 import ReshapeModelData from '../../../../components/hooks/ReshapeModelData';
 import ReshapeSelectData from '../../../../components/hooks/ReshapeSelectData';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 12,
-  p: 4,
-};
 
-function Models() {
-  const [models, setModels] = useState({});
+
+function Products() {
   const [makes, setMakes] = useState({});
-  const [reshapedmodels, setReshapedmodels] = useState({});
-  const [model, setModel] = useState(null);
+  const [models, setModels] = useState({});
+  const [productCategories, setProductCategories] = useState({});
+  const [reshapedProducts, setReshapedProducts] = useState({});
+  const [product, setProduct] = useState(null);
+  const [products, setProducts] = useState(null);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
   const [errMsg, setErrMsg] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
-  const MODELS_URL_ALL = 'api/models/all';
-  const MODELS_URL = 'api/models/';
+  const PRODUCTS_URL_ALL = 'api/products/all';
+  const PRODUCTS_URL = 'api/products/';
   const MAKE_URL = 'api/makes/';
+  const MODELS_URL = 'api/models/';
+  const PRODUCT_CATEGORIES_URL = 'api/product_category/';
 
   useEffect(() => {
     let isMounted = true;
     let controller = new AbortController();
-    const getModels = async () => {
+    const getProducts = async () => {
       try {
-        const res = await axiosPrivate.get(MODELS_URL_ALL, {
+        const res = await axiosPrivate.get(PRODUCTS_URL_ALL, {
           signal: controller.signal,
         });
-        isMounted && setModels(res?.data?.data);
+        console.log(res?.data?.data);
+        isMounted && setProducts(res?.data?.data);
 
-        setReshapedmodels(ReshapeModelData(res?.data?.data, ['make']));
+        setReshapedProducts(ReshapeModelData(res?.data?.data, ['make', 'model', 'product_category']));
       } catch (err) {
         console.error(err);
         // navigate('/login', { state: { from: location }, replace: true });
@@ -77,8 +72,34 @@ function Models() {
       }
     };
 
-    getModels();
+    const getModels = async () => {
+      try {
+        const res = await axiosPrivate.get(MODELS_URL, {
+          signal: controller.signal,
+        });
+        isMounted && setModels(res?.data?.data);
+      } catch (err) {
+        console.error(err);
+        // navigate('/login', { state: { from: location }, replace: true });
+      }
+    };
+
+    const getProductCategories = async () => {
+      try {
+        const res = await axiosPrivate.get(PRODUCT_CATEGORIES_URL, {
+          signal: controller.signal,
+        });
+        isMounted && setProductCategories(res?.data?.data);
+      } catch (err) {
+        console.error(err);
+        // navigate('/login', { state: { from: location }, replace: true });
+      }
+    };
+
+    getProducts();
     getMakes();
+    getModels();
+    getProductCategories();
 
     return () => {
       isMounted = false;
@@ -105,6 +126,22 @@ function Models() {
         name: 'vehicle_make_id',
         field_id: 'select_make_id',
         select_options: ReshapeSelectData(makes, ['id', 'title']),
+      },
+      {
+        input_type: 'select',
+        title: 'Model',
+        type: 'select',
+        name: 'vehicle_model_id',
+        field_id: 'select_model_id',
+        select_options: ReshapeSelectData(models, ['id', 'title']),
+      },
+      {
+        input_type: 'select',
+        title: 'Category',
+        type: 'select',
+        name: 'product_category_id',
+        field_id: 'select_category_id',
+        select_options: ReshapeSelectData(productCategories, ['id', 'title']),
       },
       {
         title: 'Description',
@@ -142,9 +179,25 @@ function Models() {
         input_type: 'select',
         title: 'Make',
         type: 'select',
-        name: 'vehicleMakeId',
+        name: 'vehicle_make_id',
         field_id: 'select_make_id',
         select_options: ReshapeSelectData(makes, ['id', 'title']),
+      },
+      {
+        input_type: 'select',
+        title: 'Model',
+        type: 'select',
+        name: 'vehicle_model_id',
+        field_id: 'select_model_id',
+        select_options: ReshapeSelectData(models, ['id', 'title']),
+      },
+      {
+        input_type: 'select',
+        title: 'Category',
+        type: 'select',
+        name: 'product_category_id',
+        field_id: 'select_category_id',
+        select_options: ReshapeSelectData(productCategories, ['id', 'title']),
       },
       {
         title: 'Description',
@@ -188,6 +241,22 @@ function Models() {
     },
     {
       name: 'make_title',
+      label: 'Make',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: 'model_title',
+      label: 'Model',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: 'product_category_title',
       label: 'Category',
       options: {
         filter: true,
@@ -236,15 +305,15 @@ function Models() {
   const onSubmit = async (data) => {
     console.log(data);
     const upsert_url = data?.id
-      ? `${MODELS_URL}update/${data?.id}`
-      : `${MODELS_URL}`;
+      ? `${PRODUCTS_URL}update/${data?.id}`
+      : `${PRODUCTS_URL}`;
     // console.log(data);
     await axiosPrivate
       .post(upsert_url, data)
       .then((res) => {
         let patched_record = res?.data?.data;
         if (patched_record) {
-          let new_records = UpdateTbData(patched_record, models);
+          let new_records = UpdateTbData(patched_record, products);
           setModels(new_records);
           setOpenModal(false);
         }
@@ -257,16 +326,16 @@ function Models() {
   };
 
   let editRecord = (val) => {
-    let mymodel = models.filter((item) => item.id === val[0]);
-    if (mymodel) setModel(...mymodel);
+    let this_record = products.filter((item) => item.id === val[0]);
+    if (this_record) setProduct(...this_record);
     setOpenModal(true);
   };
 
   let delRecord = async (val) => {
     let record_id = val[0];
-    let mymodel = models.filter((item) => item.id === val[0])[0];
+    let my_record = products.filter((item) => item.id === val[0])[0];
 
-    let del_url = `${MODELS_URL}delete/${record_id}`;
+    let del_url = `${PRODUCTS_URL}delete/${record_id}`;
     let verify = window.confirm(`Are you sure you want to delete this record `);
     if (verify) {
       await axiosPrivate
@@ -274,8 +343,8 @@ function Models() {
         .then((res) => {
           let patched_record = res.data;
           if (patched_record) {
-            let new_records = UpdateTbData(mymodel, models, true);
-            setModels(new_records);
+            let new_records = UpdateTbData(my_record, products, true);
+            setProducts(new_records);
             setOpenModal(false);
           }
         })
@@ -289,7 +358,7 @@ function Models() {
     </Link>,
 
     <Typography key="2" color="text.primary">
-      Models
+      Products
     </Typography>,
   ];
 
@@ -297,7 +366,7 @@ function Models() {
     <>
       <div className="page_header">
         <Typography variant={'h5'} component={'h5'} className="pagetitle">
-          Models Page
+          Products Page
         </Typography>
         <Appbreadcrumb breadcrumbs={breadcrumbs} />
       </div>
@@ -309,20 +378,20 @@ function Models() {
             variant="outlined"
             sx={{ borderRadius: 28 }}
             onClick={() => {
-              setModel({});
+              setProduct({});
               setOpenModal(true);
             }}
           >
-            Add Model <Add fontSize="small" />
+            Add Product <Add fontSize="small" />
           </Button>
         </Grid>
 
         <Grid item xs={12}>
           <Datatable
-            tb_title="Active Models"
+            tb_title="All Records"
             data={
-              reshapedmodels && reshapedmodels.length > 0
-                ? reshapedmodels
+              reshapedProducts && reshapedProducts.length > 0
+                ? reshapedProducts
                 : null
             }
             columns={data_columns}
@@ -335,7 +404,7 @@ function Models() {
           <AppModal
             show={openModal}
             close={() => setOpenModal(false)}
-            title={`Add | Edit User`}
+            title={`Add | Edit Record`}
           >
             {errMsg ? (
               <Alert severity="error">
@@ -347,13 +416,13 @@ function Models() {
             )}
             <Appnormalform
               template={
-                model && Object.keys(model).length === 0
+                product && Object.keys(product).length === 0
                   ? form_template
                   : form_template_update
               }
               onSubmit={onSubmit}
               useForm={useForm}
-              preloadValues={model}
+              preloadValues={product}
             />
           </AppModal>
         </Grid>
@@ -362,4 +431,4 @@ function Models() {
   );
 }
 
-export default Models;
+export default Products;
