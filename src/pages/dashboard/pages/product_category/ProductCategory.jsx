@@ -257,7 +257,7 @@ function ProductCategory() {
               setProductCategory({}); 
               setOpenModal(true);
               }}>
-            Add Product Category <Add fontSize="small" />
+            Add Category <Add fontSize="small" />
           </Button>
         </Grid>
 
@@ -266,7 +266,7 @@ function ProductCategory() {
 
 
         <Grid item xs={12}>
-          <Datatable tb_title="Active Makes" 
+          <Datatable tb_title="All Categories" 
               data={(productCategories && productCategories.length > 0 ) ? productCategories : null} 
               columns={user_columns}  
               editRecord={editRecord}
