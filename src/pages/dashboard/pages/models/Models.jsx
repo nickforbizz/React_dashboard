@@ -113,6 +113,12 @@ function Models() {
         field_id: 'description',
       },
       {
+        title: 'Year Of Manufacturing',
+        type: 'number',
+        name: 'yom',
+        field_id: 'yom',
+      },
+      {
         input_type: 'select',
         title: 'Active',
         type: 'select',
@@ -151,6 +157,12 @@ function Models() {
         type: 'text',
         name: 'description',
         field_id: 'description',
+      },
+      {
+        title: 'Year Of Manufacturing',
+        type: 'number',
+        name: 'yom',
+        field_id: 'yom',
       },
       {
         input_type: 'select',
@@ -209,6 +221,14 @@ function Models() {
         filter: true,
         sort: true,
         align: 'center',
+      },
+    },
+    {
+      name: 'yom',
+      label: 'YOM',
+      options: {
+        filter: true,
+        sort: true,
       },
     },
     {
