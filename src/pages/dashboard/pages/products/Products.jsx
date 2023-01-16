@@ -50,8 +50,9 @@ function Products() {
         const res = await axiosPrivate.get(PRODUCTS_URL_ALL, {
           signal: controller.signal,
         });
-        console.log(res?.data?.data);
         isMounted && setProducts(res?.data?.data);
+        console.log("products");
+        console.log(res?.data?.data);
 
         setReshapedProducts(ReshapeModelData(res?.data?.data, ['make', 'model', 'product_category']));
       } catch (err) {
@@ -311,10 +312,12 @@ function Products() {
     await axiosPrivate
       .post(upsert_url, data)
       .then((res) => {
-        let patched_record = res?.data?.data;
-        if (patched_record) {
-          let new_records = UpdateTbData(patched_record, products);
-          setModels(new_records);
+        let patched_record = res?.data?.data?.data;
+        if (patched_record && patched_record.length>0) {
+          let new_records = UpdateTbData(patched_record[0], products);
+          setProducts(new_records);
+          
+          setReshapedProducts(ReshapeModelData(new_records, ['make', 'model', 'product_category']));
           setOpenModal(false);
         }
       })
