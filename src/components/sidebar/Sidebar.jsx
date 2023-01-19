@@ -2,11 +2,16 @@ import {
   AccountCircle,
   Brightness4,
   Brightness7,
+  CategoryOutlined,
   Dashboard,
+  DirectionsBusOutlined,
+  DirectionsCar,
   ExpandMore,
   Forum,
   InsertChart,
+  Inventory2Outlined,
   Logout,
+  MonetizationOnOutlined,
   Notifications,
   People,
   Person,
@@ -151,31 +156,31 @@ function Sidebar() {
       <Divider light sx={{ mb: 2 }} className="divider" />
 
       <Link to="/admin/makes" className="sidebar-item">
-        <People className="icon" />
+        <DirectionsCar className="icon" />
         <Typography className="sidebar-text"> Makes</Typography>
       </Link>
       <Divider light sx={{ mb: 2 }} className="divider" />
 
       <Link to="/admin/models" className="sidebar-item">
-        <People className="icon" />
+        <DirectionsBusOutlined className="icon" /> 
         <Typography className="sidebar-text"> Models</Typography>
       </Link>
       <Divider light sx={{ mb: 2 }} className="divider" />
 
       <Link to="/admin/product_category" className="sidebar-item">
-        <People className="icon" />
+        <CategoryOutlined className="icon" />
         <Typography className="sidebar-text"> Product Category</Typography>
       </Link>
       <Divider light sx={{ mb: 2 }} className="divider" />
 
       <Link to="/admin/products" className="sidebar-item">
-        <People className="icon" />
+        <Inventory2Outlined className="icon" /> 
         <Typography className="sidebar-text"> Products</Typography>
       </Link>
       <Divider light sx={{ mb: 2 }} className="divider" />
 
       <Link to="/admin/sales" className="sidebar-item">
-        <People className="icon" />
+        <MonetizationOnOutlined className="icon" /> 
         <Typography className="sidebar-text"> Sales</Typography>
       </Link>
       <Divider light sx={{ mb: 2 }} className="divider" />
