@@ -46,7 +46,7 @@ function Sales() {
   const [openModal, setOpenModal] = useState(false);
   const SALES_URL_ALL = 'api/sales/all';
   const SALES_URL = 'api/sales/';
-  const PRODUCT_URL = 'api/products/';
+  const PRODUCT_URL = 'api/products/stock';
 
   useEffect(() => {
     let isMounted = true;
@@ -71,6 +71,7 @@ function Sales() {
           signal: controller.signal,
         });
         isMounted && setProducts(res?.data?.data);
+        
       } catch (err) {
         console.error(err);
         // navigate('/login', { state: { from: location }, replace: true });
@@ -89,15 +90,6 @@ function Sales() {
   let form_template = {
     title: 'Kindly Fill the below form and submit!',
     fields: [
-      {
-        title: 'Title',
-        type: 'text',
-        name: 'title',
-        field_id: 'title',
-        validationProps: {
-          required: 'title is required',
-        },
-      },
       {
         input_type: 'select',
         title: 'Product',
@@ -129,15 +121,6 @@ function Sales() {
   let form_template_update = {
     title: 'Kindly Fill the below form and submit!',
     fields: [
-      {
-        title: 'Title',
-        type: 'text',
-        name: 'title',
-        field_id: 'title',
-        validationProps: {
-          required: 'title is required',
-        },
-      },
       {
         input_type: 'select',
         title: 'Product',
@@ -188,15 +171,7 @@ function Sales() {
     },
     {
       name: 'product_title',
-      label: 'Category',
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: 'title',
-      label: 'Title',
+      label: 'Product',
       options: {
         filter: true,
         sort: true,
@@ -234,7 +209,7 @@ function Sales() {
   ];
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     const upsert_url = data?.id
       ? `${SALES_URL}update/${data?.id}`
       : `${SALES_URL}`;
@@ -242,10 +217,11 @@ function Sales() {
     await axiosPrivate
       .post(upsert_url, data)
       .then((res) => {
-        let patched_record = res?.data?.data;
-        if (patched_record) {
-          let new_records = UpdateTbData(patched_record, sales);
+        let patched_record = res?.data?.data?.data;
+        if (patched_record && patched_record.length>0) {
+          let new_records = UpdateTbData(patched_record[0], sales);
           setSales(new_records);
+          setReshapedsales(ReshapeModelData(new_records, ['product']));
           setOpenModal(false);
         }
       })
