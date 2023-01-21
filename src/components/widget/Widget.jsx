@@ -5,10 +5,14 @@ import { Link } from 'react-router-dom';
 import './widget.css';
 
 function Widget(props) {
-  let { icon, title='Model', data } = props;
-  let active_records = Object.values(data)[0];
-  let inactive_records = Object.values(data)[1];
-  let active_percent = parseInt((active_records/(active_records+inactive_records))*100);
+  let { link, icon, title='Model', data } = props;
+  let active_records=0, inactive_records=0, active_percent =0;
+  if(data){
+    active_records = Object.values(data)[0];
+    inactive_records = Object.values(data)[1];
+    active_percent = parseInt((active_records/(active_records+inactive_records))*100);
+
+  }
 
 
 
@@ -39,7 +43,7 @@ function Widget(props) {
             </Typography>
              { getRecords()}
             
-            <Link href="#" className="widget-left-item widget-link"> View {title}</Link>
+            <Link to={link} className="widget-left-item widget-link"> View {title}</Link>
           </Grid>
 
           <Grid item xs={4}>

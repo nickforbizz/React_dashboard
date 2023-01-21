@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Launch, MonetizationOnOutlined, People } from '@mui/icons-material';
+import { DirectionsCar, Inventory2Outlined, Launch, MonetizationOnOutlined, People } from '@mui/icons-material';
 import {
   Button,
   Card,
@@ -19,9 +19,11 @@ import Widget from '../../../../components/widget/Widget';
 import './homedash.scss';
 
 function Homedash() {
-  // states
-  const [salesstats, setSalesstats] = useState({});
-  const [usersstats, setUsersstats] = useState({});
+  // states 
+  const [salesStats, setSalesStats] = useState({});
+  const [usersStats, setUsersStats] = useState({});
+  const [productsStats, setProductsStats] = useState({});
+  const [makesStats, setMakesStats] = useState({});
 
   // hooks
   const axiosPrivate = useAxiosPrivate();
@@ -39,8 +41,10 @@ function Homedash() {
           signal: controller.signal,
         });
         console.log(res.data.users);
-        isMounted && setSalesstats(res?.data?.sales);
-        isMounted && setUsersstats(res?.data?.users);
+        isMounted && setSalesStats(res?.data?.sales);
+        isMounted && setUsersStats(res?.data?.users);
+        isMounted && setProductsStats(res?.data?.products);
+        isMounted && setMakesStats(res?.data?.makes);
 
       } catch (err) {
         console.error(err);
@@ -76,8 +80,10 @@ function Homedash() {
       <Divider light sx={{ mb: 2 }} className="divider" />
 
       <Grid container className="widgets">
-        <Widget title={'Users'} data={usersstats} icon={<People className='icon-bottom'/>} />
-         <Widget title={'Sales'} data={salesstats} icon={<MonetizationOnOutlined className='icon-bottom'/>} />
+        <Widget title={'Users'} data={usersStats} link={'users'} icon={<People className='icon-bottom'/>} />
+        <Widget title={'Products'} data={productsStats} link={'products'} icon={<Inventory2Outlined className='icon-bottom'/>} />
+        <Widget title={'Sales'} data={salesStats} link={'sales'} icon={<MonetizationOnOutlined className='icon-bottom'/>} />
+        <Widget title={'Makes'} data={makesStats} link={'makes'} icon={<DirectionsCar className='icon-bottom'/>} />
         {/*<Widget />
         <Widget /> */}
       </Grid>
