@@ -195,7 +195,7 @@ function Sidebar() {
       <Divider light sx={{ mb: 3 }} className="divider" />
 
       {theme.palette.mode.toUpperCase()} Mode
-      <IconButton
+      <IconButton 
         sx={{ ml: 1 }}
         onClick={colorMode.toggleColorMode}
         color="inherit"
