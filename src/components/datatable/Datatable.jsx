@@ -97,7 +97,7 @@ function Datatable(props) {
     data = default_data,
   } = props;
   data = !data ? default_data : data;
-  columns = [...columns, ...actions];
+  columns = props.editRecord ? [...columns, ...actions] : columns;
 
   const options = {
     filterType: 'checkbox',
