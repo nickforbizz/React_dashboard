@@ -90,9 +90,8 @@ function Sidebar() {
           </AccordionSummary>
           <AccordionDetails sx={{ mb: 0 }}>
             <Link
-              to="/admin/profile"
+              to="/admin/settings"
               className="sidebar_item_dropdown"
-              
             >
               <Settings className="icon" sx={{ mb: 2 }}/>
               <Typography className="sidebar-text" sx={{ mb: 2 }}> Settings </Typography>
@@ -182,16 +181,6 @@ function Sidebar() {
       <Link to="/admin/sales" className="sidebar-item">
         <MonetizationOnOutlined className="icon" /> 
         <Typography className="sidebar-text"> Sales</Typography>
-      </Link>
-      <Divider light sx={{ mb: 2 }} className="divider" />
-
-      <Link to="/admin/notifications" className="sidebar-item">
-        <Notifications className="icon" />
-        <Typography className="sidebar-text"> Notifications</Typography>
-      </Link>
-      <Link to="/admin/settings" className="sidebar-item">
-        <Settings className="icon" />
-        <Typography className="sidebar-text"> Settings</Typography>
       </Link>
       <Divider light sx={{ mb: 2 }} className="divider" />
       
