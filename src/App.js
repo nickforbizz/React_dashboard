@@ -29,6 +29,7 @@ import Models from './pages/dashboard/pages/models/Models';
 import ProductCategory from './pages/dashboard/pages/product_category/ProductCategory';
 import Products from './pages/dashboard/pages/products/Products';
 import Sales from './pages/dashboard/pages/sales/Sales';
+import Businesses from './pages/dashboard/pages/businesses/Businesses';
 
 function App() {
   const [mode, setMode] = React.useState('light');
@@ -98,6 +99,7 @@ function App() {
               <Route path="product_category" element={<ProductCategory />} />
               <Route path="products" element={<Products />} />
               <Route path="sales" element={<Sales />} />
+              <Route path="businesses" element={<Businesses />} />
               <Route path="profile" element={<Profile />} />
               <Route path="*" element={<Dashnopagefound />} />
             </Route>
