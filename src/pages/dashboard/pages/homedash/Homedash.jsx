@@ -140,7 +140,17 @@ function Homedash() {
       <div className="page_header">
         <Typography variant={'h5'} component={'h5'} className="pagetitle">
           Home Page
+        <Button
+          variant="outlined"
+          component={Link}
+          to="/admin/businesses"
+          sx={{ borderRadius: 28, m:2 }}
+        >
+          Businesses <Launch fontSize="small" sx={{ ml: 1 }} />
+        </Button>
         </Typography>
+
+
         <Appbreadcrumb breadcrumbs={breadcrumbs} />
       </div>
 
