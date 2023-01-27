@@ -8,7 +8,7 @@ import Backlayout from './components/applayout/Backlayout';
 import Frontlayout from './components/applayout/Frontlayout';
 
 // Frontend Routes
-import Home from './pages/home/Home';
+import Home from './pages/home/Home2';
 import About from './pages/about/About';
 import Nopagefound from './pages/nopagefound/Nopagefound';
 
