@@ -263,7 +263,7 @@ function Businesses() {
 
 
         <Grid item xs={12}>
-          <Datatable tb_title="All Categories" 
+          <Datatable tb_title="All Records" 
               data={(businesses && businesses.length > 0 ) ? businesses : null} 
               columns={user_columns}  
               editRecord={editRecord}
