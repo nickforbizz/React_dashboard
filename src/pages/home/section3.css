@@ -1,0 +1,36 @@
+.section-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: antiquewhite;
+  }
+  
+  .image-container {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .image-container img {
+    width: 100%;
+  }
+  
+  .text-container {
+    flex: 2;
+  }
+  
+  .text-container h2 {
+    margin-bottom: 10px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 45px;
+    line-height: 68px;
+  }
+  
+  .text-container p {
+    font-size: 18px;
+    line-height: 30px;
+  }
+  
+  
