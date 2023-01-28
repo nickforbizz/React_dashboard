@@ -17,7 +17,6 @@ import {
 import { Brightness4, Brightness7, Menu } from '@mui/icons-material';
 import { ColorModeContext } from '../../context/ColorModeContext';
 import { Link } from 'react-router-dom';
-import { Container } from '@mui/system';
 // import styles from './navbarfront.module.scss';
 
 const drawerWidth = 240;
@@ -35,13 +34,9 @@ function NavbarFront(props) {
   const navLinks = (link) => {
     let link_url =
       link.toLowerCase() === 'home' ? '/' : `/${link.toLowerCase()}`;
-
-    let my_btn = link.toLowerCase() === 'login' ? <Button variant="contained" color="info">
-      {link}
-    </Button> : link;
     return (
-      <Link to={link_url} >
-        <ListItemText sx={{ color: '#080000' }} component="button" variant="contained" color="success" primary={my_btn} />
+      <Link to={link_url}>
+        <ListItemText primary={link} />
       </Link>
     );
   };
@@ -78,51 +73,46 @@ function NavbarFront(props) {
     window !== undefined ? () => window().document.body : undefined;
   return (
     <>
-      <Box sx={{ display: 'flex', mb:5 }}>
-        <AppBar component="nav" style={{ background: '#ffffff', color: '#080000' }}>
-          <Container>
+      <Box sx={{ display: 'flex' }}>
+        <AppBar component="nav">
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: 'none' } }}
+            >
+              <Menu />
+            </IconButton>
 
-            <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              MkenyaDaima
+            </Typography>
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              {navItems.map((item) => (
+                <Button key={item} sx={{ color: '#fff' }}>
+                  {navLinks(item)}
+                </Button>
+              ))}
+
               <IconButton
+                sx={{ mr: 3 }}
+                onClick={colorMode.toggleColorMode}
                 color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' } }}
               >
-                <Menu />
+                {theme.palette.mode === 'dark' ? (
+                  <Brightness7 />
+                ) : (
+                  <Brightness4 />
+                )}
               </IconButton>
-
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-              >
-                Auto-Mtumba Business Solutions
-              </Typography>
-              <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                {navItems.map((item) => (
-                  <Button key={item}>
-                    {navLinks(item)}
-                  </Button>
-                ))}
-
-                <IconButton
-                  sx={{ mr: 3 }}
-                  onClick={colorMode.toggleColorMode}
-                  color="inherit"
-                >
-                  {theme.palette.mode === 'dark' ? (
-                    <Brightness7 />
-                  ) : (
-                    <Brightness4 />
-                  )}
-                </IconButton>
-              </Box>
-
-
-            </Toolbar>
-          </Container>
+            </Box>
+          </Toolbar>
         </AppBar>
 
         <Box component="nav">
