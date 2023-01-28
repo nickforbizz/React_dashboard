@@ -10,7 +10,7 @@ function Widget(props) {
   if(data){
     active_records = Object.values(data)[0];
     inactive_records = Object.values(data)[1];
-    active_percent = parseInt((active_records/(active_records+inactive_records))*100);
+    active_percent = +active_records === 0 ? 0 : parseInt((+active_records/(+active_records+ +inactive_records))*100);
 
   }
 
