@@ -188,7 +188,7 @@ function Sidebar() {
         <Forum className="icon" />
         <Typography className="sidebar-text"> Chats </Typography>
       </Link>
-      <Link onClick={signOut} className="sidebar-item">
+      <Link to="#" onClick={signOut} className="sidebar-item">
         <Logout className="icon" />
         <Typography className="sidebar-text"> Logout</Typography>
       </Link>

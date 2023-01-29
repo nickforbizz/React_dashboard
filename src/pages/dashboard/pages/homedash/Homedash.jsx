@@ -22,10 +22,12 @@ import Datatable from '../../../../components/datatable/Datatable';
 import Featured from '../../../../components/featured/Featured';
 import useAxiosPrivate from '../../../../components/hooks/useAxiosPrivate';
 import Widget from '../../../../components/widget/Widget';
-import './homedash.scss';
+import './homedash.css';
 import moment from 'moment';
 
 function Homedash() {
+
+  console.log("am here");
   // states
   const [users, setUsers] = useState(null);
   const [salesStats, setSalesStats] = useState({});
@@ -101,7 +103,7 @@ function Homedash() {
         isMounted && setSalesStats(res?.data?.sales);
         isMounted && setUsersStats(res?.data?.users);
         isMounted && setProductsStats(res?.data?.products);
-        isMounted && setMakesStats(res?.data?.makes);
+        isMounted && setMakesStats(res?.data?.makes); 
       } catch (err) {
         console.error(err);
       }

@@ -3,8 +3,12 @@ import './datatable.scss';
 import MUIDataTable from 'mui-datatables';
 import { Delete, Edit } from '@mui/icons-material';
 import { Paper } from '@mui/material';
+import useAuth from '../hooks/useAuth';
 
 function Datatable(props) {
+  const { auth } = useAuth();
+  let user = auth?.user;
+  let is_admin = user?.is_admin;
   const default_columns = [
     {
       name: '#',
@@ -52,6 +56,20 @@ function Datatable(props) {
 
   // console.log(prop.);
 
+  const renderDeleteAction = (tableMeta) => {
+    if (is_admin === 1) {
+      return <Delete
+      sx={{ cursor: 'pointer' }}
+      className="text-danger"
+      role="button"
+      onClick={() => {
+        let data = tableMeta.rowData.slice(1, -1);
+        props.delRecord(data);
+      }}
+    />
+    }
+  }
+
   const actions = [
     {
       name: 'Actions',
@@ -72,15 +90,8 @@ function Datatable(props) {
                 }}
               />
 
-              <Delete
-                sx={{ cursor: 'pointer' }}
-                className="text-danger"
-                role="button"
-                onClick={() => {
-                  let data = tableMeta.rowData.slice(1, -1);
-                  props.delRecord(data);
-                }}
-              />
+              { renderDeleteAction(tableMeta) }
+              
             </div>
           );
         },
@@ -96,6 +107,7 @@ function Datatable(props) {
     columns = default_columns,
     data = default_data,
   } = props;
+  
   data = !data ? default_data : data;
   columns = props.editRecord ? [...columns, ...actions] : columns;
 

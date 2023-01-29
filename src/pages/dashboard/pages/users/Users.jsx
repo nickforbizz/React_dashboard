@@ -4,12 +4,10 @@ import { Add } from '@mui/icons-material';
 import {
   Alert,
   AlertTitle,
-  Box,
   Button,
   Divider,
   Grid,
   Link,
-  Modal,
   Typography,
 } from '@mui/material';
 import useAxiosPrivate from '../../../../components/hooks/useAxiosPrivate';
@@ -21,17 +19,7 @@ import AppModal from '../../../../components/modal/AppModal';
 import { useForm } from 'react-hook-form';
 import UpdateTbData from '../../../../components/hooks/UpdateTbData';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 12,
-  p: 4,
-};
+
 
 function Users() {
   const [users, setUsers] = useState(null);
@@ -195,7 +183,6 @@ function Users() {
             })
             .catch(err=>{
               let err_msg = err?.response?.data?.message || "Fatal Error Occured";
-              let err_status = err?.response?.status;
               setErrMsg(err_msg);
             })
   }

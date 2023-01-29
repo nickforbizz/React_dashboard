@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -89,8 +89,9 @@ function App() {
 
           <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
+
             <Route path="/admin" element={<Backlayout />}>
-              <Route index element={<Homedash />} />
+              <Route exact index element={<Homedash />} />
               <Route path="settings" element={<Settings />} />
               <Route path="notifications" element={<Notifications />} />
               <Route path="users" element={<Users />} />
@@ -103,6 +104,7 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="*" element={<Dashnopagefound />} />
             </Route>
+            
           </Route>
           </Route>
 

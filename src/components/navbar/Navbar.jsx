@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { AccountCircle, Mail, NotificationAdd } from '@mui/icons-material';
-import styles from './navbar.module.scss';
+import styles from './navbar.module.css';
 
 function Navbar() {
   return (

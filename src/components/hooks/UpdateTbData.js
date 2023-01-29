@@ -2,7 +2,7 @@
 function UpdateTbData(obj, objs, del=false) {
     if(objs && objs.length > 0){
         let my_obj =  objs.filter(item => {
-            return item.id != obj.id;
+            return item.id !== obj.id;
         });
 
         
