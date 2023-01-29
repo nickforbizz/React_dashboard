@@ -21,17 +21,7 @@ import UpdateTbData from '../../../../components/hooks/UpdateTbData';
 import ReshapeModelData from '../../../../components/hooks/ReshapeModelData';
 import ReshapeSelectData from '../../../../components/hooks/ReshapeSelectData';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 12,
-  p: 4,
-};
+
 
 function Sales() {
   const [sales, setSales] = useState({});
@@ -227,7 +217,6 @@ function Sales() {
       })
       .catch((err) => {
         let err_msg = err?.response?.data?.message || 'Fatal Error Occured';
-        let err_status = err?.response?.status;
         setErrMsg(err_msg);
       });
   };

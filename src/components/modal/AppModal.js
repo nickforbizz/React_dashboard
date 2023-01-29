@@ -8,7 +8,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import styles from './appmodal.module.scss';
 
@@ -18,7 +17,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     width: '100% !important'
   },
   '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
+    padding: theme.spacing(1), 
     width: '100% !important'
   },
 }));

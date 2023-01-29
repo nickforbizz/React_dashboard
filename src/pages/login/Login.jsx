@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { Alert, AlertTitle, Grid } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Appnormalform from '../../components/formcomponents/Appnormalform';
@@ -14,7 +14,10 @@ function Login(props) {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || '/admin';
+  console.log(location);
+  console.log(location?.state);
   // const errRef = useRef();
+  // setUser({})
 
   const [errMsg, setErrMsg] = useState('');
 
