@@ -27,11 +27,11 @@ import moment from 'moment';
 
 function Homedash() {
 
-  console.log("am here");
   // states
   const [users, setUsers] = useState(null);
   const [salesStats, setSalesStats] = useState({});
   const [usersStats, setUsersStats] = useState({});
+  const [usersCharts, setUsersCharts] = useState({});
   const [productsStats, setProductsStats] = useState({});
   const [makesStats, setMakesStats] = useState({});
 
@@ -94,6 +94,8 @@ function Homedash() {
   useEffect(() => {
     let isMounted = true;
     let controller = new AbortController();
+
+    // Fetch Statistics for the widgets
     const getStats = async () => {
       try {
         const res = await axiosPrivate.get(SETTINGS_URL + 'stats', {
@@ -109,6 +111,25 @@ function Homedash() {
       }
     };
 
+
+    // Fetch Charts data
+    const getCharts = async () => {
+      try {
+        const res = await axiosPrivate.get(SETTINGS_URL + 'charts', {
+          signal: controller.signal,
+        });
+        console.log(res?.data);
+        isMounted && setUsersCharts(res?.data?.users);
+        // isMounted && setSalesStats(res?.data?.sales);
+        // isMounted && setProductsStats(res?.data?.products);
+        // isMounted && setMakesStats(res?.data?.makes); 
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+
+    // Fetch latest Users
     const getUsers = async () => {
       try {
         const res = await axiosPrivate.get(USERS_URL, {
@@ -122,8 +143,8 @@ function Homedash() {
     };
 
     getUsers();
-
     getStats();
+    getCharts();
 
     return () => {
       isMounted = false;
@@ -190,7 +211,7 @@ function Homedash() {
       <Grid container>
         <Grid item xs={12} sx={{ mb: 2 }}>
           <div className="card-shadow">
-            <Chart aspect={3 / 1} title={`The Last 6 Months Revenue`} />
+            <Chart aspect={3 / 1} title={`The Last 6 Months Revenue`} data={usersCharts} />
           </div>
         </Grid>
 
