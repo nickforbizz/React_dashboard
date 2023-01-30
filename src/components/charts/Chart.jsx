@@ -8,39 +8,54 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import moment from 'moment/moment';
 
-const data = [
+const default_data = [
   {
-    name: 'January',
-    amt: 850,
+    month: 'January',
+    count: 850,
   },
   {
-    name: 'Feb',
-    amt: 1200,
+    month: 'Feb',
+    count: 1200,
   },
   {
-    name: 'March',
-    amt: 200,
+    month: 'March',
+    count: 200,
   },
   {
-    name: 'April',
-    amt: 1800,
+    month: 'April',
+    count: 1800,
   },
   {
-    name: 'May',
-    amt: 2181,
+    month: 'May',
+    count: 2181,
   },
   {
-    name: 'June',
-    amt: 2500,
+    month: 'June',
+    count: 2500,
   },
   {
-    name: 'July',
-    amt: 1670,
+    month: 'July',
+    count: 1670,
   },
 ];
 
-function Chart({aspect, title}) {
+function Chart(props) {
+  let {aspect, title, data} = props;
+  let dataWithMonth = default_data;
+
+  data = !data ? default_data : data;
+  if(data.length > 0){
+    dataWithMonth = data.map(data => {
+      return {
+          month: moment(data.month).format('MMMM'),
+          count: data.count
+      }
+  });
+
+  }
+
   return (
     <div className={`${styles.chart_container} card-shadow`}>
       <div className={styles.title}>{title}</div>
@@ -48,7 +63,7 @@ function Chart({aspect, title}) {
         <AreaChart
           width={500}
           height={400}
-          data={data}
+          data={dataWithMonth}
           margin={{
             top: 10,
             right: 30,
@@ -63,10 +78,10 @@ function Chart({aspect, title}) {
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" className={styles.chart_grid}/>
-          <XAxis dataKey="name" fontSize={'15px'} stroke="gray"/>
+          <XAxis dataKey="month" fontSize={'15px'} stroke="gray" />
           <YAxis fontSize={'15px'}/>
           <Tooltip />
-          <Area type="monotone" dataKey="amt" stroke="#8884d8" fillOpacity={1} fill="url(#custom-fill)" />
+          <Area type="monotone" dataKey="count" stroke="#8884d8" fillOpacity={1} fill="url(#custom-fill)" />
         </AreaChart>
       </ResponsiveContainer>
     </div>
