@@ -4,7 +4,8 @@ import useRefreshToken from "./useRefreshToken";
 import useAuth from "./useAuth";
 
 
-const useAxiosPrivate = () => {
+const useAxiosPrivate = (props) => {
+    console.log({props});
     const refresh = useRefreshToken();
     const { auth } = useAuth();
 
@@ -13,6 +14,9 @@ const useAxiosPrivate = () => {
             config => {
                 if(!config.headers['Authorization']){
                     config.headers['Authorization'] = `Bearer ${auth?.token}`
+                }
+                if(props?.f === 'f'){
+                    config.headers['Content-Type'] = `multipart/form-data`
                 }
                 return config;
             }, error => Promise.reject(error)
