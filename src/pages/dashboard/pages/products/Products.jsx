@@ -124,6 +124,7 @@ function Products() {
         input_type: 'select',
         title: 'Make',
         type: 'select',
+        col: 'col s6',
         name: 'vehicle_make_id',
         field_id: 'select_make_id',
         select_options: ReshapeSelectData(makes, ['id', 'title']),
@@ -132,34 +133,37 @@ function Products() {
         input_type: 'select',
         title: 'Model',
         type: 'select',
+        col: 'col s6',
         name: 'vehicle_model_id',
         field_id: 'select_model_id',
         select_options: ReshapeSelectData(models, ['id', 'title']),
-      },
+      }, 
       {
         input_type: 'select',
         title: 'Category',
         type: 'select',
+        col: 'col s6',
         name: 'product_category_id',
         field_id: 'select_category_id',
         select_options: ReshapeSelectData(productCategories, ['id', 'title']),
       },
       {
-        title: 'Description',
-        type: 'text',
-        name: 'description',
-        field_id: 'description',
-      },
-      {
         input_type: 'select',
         title: 'Active',
         type: 'select',
+        col: 'col s6',
         name: 'active',
         field_id: 'select_id',
         select_options: [
           { key: 1, value: 'Yes' },
           { key: 0, value: 'No' },
         ],
+      },
+      {
+        title: 'Description',
+        type: 'text',
+        name: 'description',
+        field_id: 'description',
       },
     ],
   };
@@ -323,7 +327,6 @@ function Products() {
       })
       .catch((err) => {
         let err_msg = err?.response?.data?.message || 'Fatal Error Occured';
-        let err_status = err?.response?.status;
         setErrMsg(err_msg);
       });
   };
