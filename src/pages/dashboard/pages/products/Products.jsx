@@ -30,7 +30,7 @@ function Products() {
   const [reshapedProducts, setReshapedProducts] = useState({});
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState(null);
-  const axiosPrivate = useAxiosPrivate();
+  const axiosPrivate = useAxiosPrivate("f");
   const navigate = useNavigate();
   const location = useLocation();
   const [errMsg, setErrMsg] = useState('');
@@ -320,12 +320,14 @@ function Products() {
 
   const onSubmit = async (data) => {
     console.log(data);
+    let formdata = new FormData();
+    Object.keys(data).forEach(key => formdata.append(key, data[key]));
     const upsert_url = data?.id
       ? `${PRODUCTS_URL}update/${data?.id}`
       : `${PRODUCTS_URL}`;
-    // console.log(data);
+    console.log(formdata);
     await axiosPrivate
-      .post(upsert_url, data)
+      .post(upsert_url, formdata)
       .then((res) => {
         let patched_record = res?.data?.data?.data;
         if (patched_record && patched_record.length>0) {
