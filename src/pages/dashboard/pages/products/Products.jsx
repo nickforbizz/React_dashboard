@@ -165,6 +165,12 @@ function Products() {
         name: 'description',
         field_id: 'description',
       },
+      {
+        title: 'Image',
+        type: 'file',
+        name: 'files',
+        field_id: 'files',
+      },
     ],
   };
 
@@ -184,6 +190,7 @@ function Products() {
         input_type: 'select',
         title: 'Make',
         type: 'select',
+        col: 'col s6',
         name: 'vehicle_make_id',
         field_id: 'select_make_id',
         select_options: ReshapeSelectData(makes, ['id', 'title']),
@@ -192,6 +199,7 @@ function Products() {
         input_type: 'select',
         title: 'Model',
         type: 'select',
+        col: 'col s6',
         name: 'vehicle_model_id',
         field_id: 'select_model_id',
         select_options: ReshapeSelectData(models, ['id', 'title']),
@@ -200,20 +208,16 @@ function Products() {
         input_type: 'select',
         title: 'Category',
         type: 'select',
+        col: 'col s6',
         name: 'product_category_id',
         field_id: 'select_category_id',
         select_options: ReshapeSelectData(productCategories, ['id', 'title']),
       },
       {
-        title: 'Description',
-        type: 'text',
-        name: 'description',
-        field_id: 'description',
-      },
-      {
         input_type: 'select',
         title: 'Active',
         type: 'select',
+        col: 'col s6',
         name: 'active',
         field_id: 'select_id',
         select_options: [
@@ -221,6 +225,13 @@ function Products() {
           { key: 0, value: 'No' },
         ],
       },
+      {
+        title: 'Description',
+        type: 'text',
+        name: 'description',
+        field_id: 'description',
+      },
+      
     ],
   };
 
