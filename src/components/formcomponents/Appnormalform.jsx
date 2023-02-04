@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Alert, Divider, IconButton } from '@mui/material';
 
+// Styles
+import styles from './appnormalform.module.scss'
+
 function Appnormalform(props) {
   let { template, onSubmit, validate = () => {}} = props;
   const [showPassword, setShowPassword] = useState(false);
@@ -55,6 +58,8 @@ function Appnormalform(props) {
         input_type = 'input',
         title,
         type,
+        col = 'col s12',
+        placeholder = "Enter your value",
         name,
         field_id,
         validationProps,
@@ -69,38 +74,39 @@ function Appnormalform(props) {
       switch (input_type) {
         case 'input':
           return (
-            <div className="input-field" key={i}>
-              <label htmlFor={field_id} className={`${defaultValues[field_id] ? 'active' : ''}`}>{title} </label>
-              <input
-                type={showPassword ? 'text' : type}
-                id={field_id}
-                autoComplete={field_id === 'password' ? 'on' : 'off'}
-                {...register(name, { ...validationProps })}
-              />
-              {field_id === 'password' ? (
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  sx={{ ml: '-30px', cursor: 'pointer', position: 'absolute' }}
-                >
-                  {showPassword ? (
-                    <Visibility
-                      fontSize="small"
-                    />
-                  ) : (
-                    <VisibilityOff
-                      fontSize="small"
-                    />
-                  )}
-                </IconButton>
-              ) : (
-                ''
-              )}
-              {errors[name] && (
-                <span className="red-text"> {errors[name].message} </span>
-              )}
-            </div>
+              <div className={`${col} ${styles.mb_1} input-field"`} key={i}>
+                <label htmlFor={field_id} className={`${defaultValues[field_id] ? 'active' : ''}`}> <b> {title} </b> </label>
+                <input
+                  type={showPassword ? 'text' : type}
+                  id={field_id}
+                  placeholder={placeholder}
+                  autoComplete={field_id === 'password' ? 'on' : 'off'}
+                  {...register(name, { ...validationProps })}
+                />
+                {field_id === 'password' ? (
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    sx={{ ml: '-30px', cursor: 'pointer', position: 'absolute' }}
+                  >
+                    {showPassword ? (
+                      <Visibility
+                        fontSize="small"
+                      />
+                    ) : (
+                      <VisibilityOff
+                        fontSize="small"
+                      />
+                    )}
+                  </IconButton>
+                ) : (
+                  ''
+                )}
+                {errors[name] && (
+                  <span className="red-text"> {errors[name].message} </span>
+                )}
+              </div>
           );
         case 'checkbox':
           return (
@@ -111,7 +117,7 @@ function Appnormalform(props) {
                   id={field_id}
                   {...register(name, { ...validationProps })}
                 />
-                <span>{title}</span>
+                <span> <b> {title} </b> </span>
                 {errors[name] && (
                   <span className="red-text"> {errors[name].message} </span>
                 )}
@@ -120,8 +126,8 @@ function Appnormalform(props) {
           );
         case 'select':
           return (
-            <div className="pr" key={i}>
-              <label htmlFor={field_id} className={`${defaultValues[field_id] ? 'active' : ''}`}>{title}</label>
+            <div className={`${col} pr`} key={i} >
+              <label htmlFor={field_id} className={`${defaultValues[field_id] ? 'active' : ''}`}>  <b> {title} </b> </label>
               <select
                 className="browser-default"
                 id={field_id}
@@ -141,7 +147,7 @@ function Appnormalform(props) {
         case 'select_multiple':
           return (
             <div className="pr" key={i}>
-              <label htmlFor={field_id} className={`${defaultValues[field_id] ? 'active' : ''}`}>{title}</label>
+              <label htmlFor={field_id} className={`${defaultValues[field_id] ? 'active' : ''}`}> <b> {title} </b> </label>
               <select
                 className="browser-default"
                 id={field_id}
@@ -171,10 +177,10 @@ function Appnormalform(props) {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* <h6 >{title}</h6> */}
-        <Alert severity="info" sx={{ mb: 2 }}> {title} </Alert>
+        <Alert severity="info" sx={{ mb: 0 }}> {title} </Alert>
         <Divider light sx={{ mb: 3 }} className="divider" />
 
-        <div>{renderFields(fields)}</div>
+        <div className="row"> {renderFields(fields)} </div>
 
         <button type="submit" className="btn btn-primary">
           Submit
