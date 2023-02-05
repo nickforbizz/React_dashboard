@@ -231,6 +231,12 @@ function Products() {
         name: 'description',
         field_id: 'description',
       },
+      {
+        title: 'Image',
+        type: 'file',
+        name: 'files',
+        field_id: 'files',
+      },
       
     ],
   };
@@ -319,16 +325,19 @@ function Products() {
   ];
 
   const onSubmit = async (data) => {
-    console.log(data);
+    
     let formdata = new FormData();
     Object.keys(data).forEach(key => formdata.append(key, data[key]));
+    formdata.append("images", data?.files[0]);
     const upsert_url = data?.id
       ? `${PRODUCTS_URL}update/${data?.id}`
       : `${PRODUCTS_URL}`;
-    console.log(formdata);
+    console.log(formdata['files']);
+    console.log(upsert_url);
     await axiosPrivate
       .post(upsert_url, formdata)
       .then((res) => {
+        console.log(res);
         let patched_record = res?.data?.data?.data;
         if (patched_record && patched_record.length>0) {
           let new_records = UpdateTbData(patched_record[0], products);
