@@ -5,7 +5,6 @@ import useAuth from "./useAuth";
 
 
 const useAxiosPrivate = (props) => {
-    console.log({props});
     const refresh = useRefreshToken();
     const { auth } = useAuth();
 
