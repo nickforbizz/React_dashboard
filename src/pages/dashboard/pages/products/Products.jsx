@@ -57,7 +57,7 @@ function Products() {
         setReshapedProducts(ReshapeModelData(res?.data?.data, ['make', 'model', 'product_category']));
       } catch (err) {
         console.error(err);
-        // navigate('/login', { state: { from: location }, replace: true });
+        navigate('/login', { state: { from: location }, replace: true });
       }
     };
 
@@ -69,7 +69,7 @@ function Products() {
         isMounted && setMakes(res?.data?.data);
       } catch (err) {
         console.error(err);
-        // navigate('/login', { state: { from: location }, replace: true });
+        navigate('/login', { state: { from: location }, replace: true });
       }
     };
 
@@ -81,7 +81,7 @@ function Products() {
         isMounted && setModels(res?.data?.data);
       } catch (err) {
         console.error(err);
-        // navigate('/login', { state: { from: location }, replace: true });
+        navigate('/login', { state: { from: location }, replace: true });
       }
     };
 
@@ -93,7 +93,7 @@ function Products() {
         isMounted && setProductCategories(res?.data?.data);
       } catch (err) {
         console.error(err);
-        // navigate('/login', { state: { from: location }, replace: true });
+        navigate('/login', { state: { from: location }, replace: true });
       }
     };
 
@@ -332,8 +332,6 @@ function Products() {
     const upsert_url = data?.id
       ? `${PRODUCTS_URL}update/${data?.id}`
       : `${PRODUCTS_URL}`;
-    console.log(formdata['files']);
-    console.log(upsert_url);
     await axiosPrivate
       .post(upsert_url, formdata)
       .then((res) => {
@@ -344,8 +342,8 @@ function Products() {
           setProducts(new_records);
           
           setReshapedProducts(ReshapeModelData(new_records, ['make', 'model', 'product_category']));
-          setOpenModal(false);
         }
+        setOpenModal(false);
       })
       .catch((err) => {
         let err_msg = err?.response?.data?.message || 'Fatal Error Occured';
