@@ -51,7 +51,7 @@ function Sales() {
         setReshapedsales(ReshapeModelData(res?.data?.data, ['product']));
       } catch (err) {
         console.error(err);
-        // navigate('/login', { state: { from: location }, replace: true });
+        navigate('/login', { state: { from: location }, replace: true });
       }
     };
 
@@ -64,7 +64,7 @@ function Sales() {
         
       } catch (err) {
         console.error(err);
-        // navigate('/login', { state: { from: location }, replace: true });
+        navigate('/login', { state: { from: location }, replace: true });
       }
     };
 
@@ -207,9 +207,11 @@ function Sales() {
     await axiosPrivate
       .post(upsert_url, data)
       .then((res) => {
+        // console.log(res);
         let patched_record = res?.data?.data?.data;
         if (patched_record && patched_record.length>0) {
           let new_records = UpdateTbData(patched_record[0], sales);
+          // console.log(new_records);
           setSales(new_records);
           setReshapedsales(ReshapeModelData(new_records, ['product']));
           setOpenModal(false);

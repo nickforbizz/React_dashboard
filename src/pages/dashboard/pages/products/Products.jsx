@@ -51,8 +51,8 @@ function Products() {
           signal: controller.signal,
         });
         isMounted && setProducts(res?.data?.data);
-        console.log("products");
-        console.log(res?.data?.data);
+        // console.log("products");
+        // console.log(res?.data?.data);
 
         setReshapedProducts(ReshapeModelData(res?.data?.data, ['make', 'model', 'product_category']));
       } catch (err) {
@@ -335,7 +335,6 @@ function Products() {
     await axiosPrivate
       .post(upsert_url, formdata)
       .then((res) => {
-        console.log(res);
         let patched_record = res?.data?.data?.data;
         if (patched_record && patched_record.length>0) {
           let new_records = UpdateTbData(patched_record[0], products);
