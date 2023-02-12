@@ -216,7 +216,7 @@ function Sales() {
           setReshapedsales(ReshapeModelData(new_records, ['product']));
           setOpenModal(false);
         }
-      })
+      }) 
       .catch((err) => {
         let err_msg = err?.response?.data?.message || 'Fatal Error Occured';
         setErrMsg(err_msg);
