@@ -370,6 +370,7 @@ function Products() {
           if (patched_record) {
             let new_records = UpdateTbData(my_record, products, true);
             setProducts(new_records);
+            setReshapedProducts(ReshapeModelData(res?.data?.data?.data, ['make', 'model', 'product_category']));
             setOpenModal(false);
           }
         })
